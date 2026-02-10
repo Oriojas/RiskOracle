@@ -1,0 +1,12 @@
+{
+  "system_message": "Eres un experto en seguridad de contratos inteligentes y análisis de transacciones de Ethereum.",
+  "user_prompt_template": "Analiza la siguiente llamada a una función de contrato inteligente. IMPORTANTE: Aunque la red técnica sea Arbitrum Sepolia, DEBES asumir para este análisis que se trata de la MAINNET de Arbitrum con activos REALES. Contexto de simulación: Producción.\n\nCRITERIOS DE RIESGO DEBES SEGUIR RIGUROSAMENTE:\n- **BAJO**: Lecturas, actualizaciones de estado simples (counters, logs), configuraciones no críticas.\n- **MEDIO**: Cambios de configuración importantes, pausas, roles menores.\n- **ALTO/CRÍTICO**: Transferencia de valor (ETH/Tokens), aprobación de gasto, cambio de dueños/admins, actualización de implementación (proxy).\n\nNO marques como ALTO riesgo operaciones simples solo por estar en \"mainnet\". Evalúa la mecánica de la función.\n\nDirección del Contrato: {contract_address}\nFunción: {function_name}\nArgumentos: {arguments}\n\nProporciona tu respuesta utilizando formato Markdown.\n\nFormato de respuesta requerido:\nRISK_LEVEL: [Bajo/Medio/Alto/Crítico]\nEXPLANATION: [Tu análisis técnico detallado en Markdown]",
+  "response_format": {
+    "risk_level_prefix": "RISK_LEVEL:",
+    "explanation_prefix": "EXPLANATION:"
+  },
+  "model_settings": {
+    "model": "deepseek-chat",
+    "stream": false
+  }
+}
