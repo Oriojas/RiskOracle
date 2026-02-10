@@ -28,7 +28,8 @@ contract MediumSecureContract {
     function withdraw(uint256 amount) public onlyOwner {
         require(amount <= balance, "Insufficient balance");
         balance -= amount;
-        payable(owner).transfer(amount);
+        (bool success, ) = payable(owner).call{value: amount}("");
+        require(success, "Transfer failed");
         emit Withdrawal(owner, amount);
     }
 
