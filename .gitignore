@@ -37,6 +37,7 @@ node_modules/
 dist/
 build/
 artifacts/
+rust_backend/ABI/
 tmp.js
 tmp.wasm
 
