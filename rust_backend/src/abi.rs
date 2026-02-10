@@ -11,39 +11,55 @@ pub async fn fetch_abi_from_arbiscan(
     contract_address: &str,
 ) -> Result<Value, Box<dyn std::error::Error>> {
     info!(
-        "🌐 Solicitando ABI de Arbiscan para contrato: {}",
+        "🌐 Solicitando ABI de Arbiscan/Etherscan para contrato: {}",
         contract_address
     );
     let api_key = env::var("ARBISCAN_API_KEY").unwrap_or_default();
-
-    let url = if api_key.is_empty() {
-        format!(
-            "https://api-sepolia.arbiscan.io/api?module=contract&action=getabi&address={}",
-            contract_address
-        )
-    } else {
-        format!(
-            "https://api-sepolia.arbiscan.io/api?module=contract&action=getabi&address={}&apikey={}",
-            contract_address,
-            api_key
-        )
-    };
-
     let client = Client::new();
-    info!("📤 Enviando solicitud a Arbiscan API");
-    let response = client.get(&url).send().await?;
-    let json: Value = response.json().await?;
 
-    if json["status"] == "1" {
-        info!("✅ ABI obtenido exitosamente de Arbiscan");
-        let abi_string = json["result"].as_str().unwrap();
-        let abi: Value = serde_json::from_str(abi_string)?;
-        Ok(abi)
-    } else {
-        let error_msg = json["message"].as_str().unwrap_or("Error desconocido");
-        error!("❌ Error al obtener ABI de Arbiscan: {}", error_msg);
-        Err(format!("Error al obtener ABI: {}", error_msg).into())
+    // Lista de Chain IDs para probar: 
+    // 421614: Arbitrum Sepolia
+    // 11155111: Ethereum Sepolia
+    let chain_ids = ["421614", "11155111"];
+
+    for chain_id in chain_ids {
+        let chain_name = if chain_id == "421614" { "Arbitrum Sepolia" } else { "Ethereum Sepolia" };
+        
+        let url = if api_key.is_empty() {
+            format!(
+                "https://api.etherscan.io/v2/api?chainid={}&module=contract&action=getabi&address={}",
+                chain_id, contract_address
+            )
+        } else {
+            format!(
+                "https://api.etherscan.io/v2/api?chainid={}&module=contract&action=getabi&address={}&apikey={}",
+                chain_id, contract_address, api_key
+            )
+        };
+
+        info!("📤 Intentando obtener ABI en {} (Chain ID: {})", chain_name, chain_id);
+        
+        match client.get(&url).send().await {
+            Ok(response) => {
+                if let Ok(json) = response.json::<Value>().await {
+                    if json["status"] == "1" {
+                        info!("✅ ABI encontrado exitosamente en {}", chain_name);
+                        let abi_string = json["result"].as_str().unwrap();
+                        let abi: Value = serde_json::from_str(abi_string)?;
+                        return Ok(abi);
+                    } else {
+                        let msg = json["message"].as_str().unwrap_or("Desconocido");
+                        info!("⚠️ No encontrado en {}: {}", chain_name, msg);
+                    }
+                }
+            }
+            Err(e) => {
+                error!("❌ Error de conexión con {}: {}", chain_name, e);
+            }
+        }
     }
+
+    Err("No se pudo obtener el ABI en ninguna de las redes configuradas (Arbitrum Sepolia, Ethereum Sepolia). Asegúrate de que el contrato esté verificado.".into())
 }
 
 pub async fn get_or_fetch_abi(
