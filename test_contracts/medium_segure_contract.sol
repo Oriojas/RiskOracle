@@ -19,9 +19,20 @@ contract MediumSecureContract {
 
     // Function to deposit Ether into the contract
     function deposit() public payable {
-        require(msg.value > 0, "Deposit amount must be greater than 0");
+        // Validation: The value sent must be greater than 0
+        require(msg.value > 0, "Deposit amount must be greater than 0. Please send ETH.");
         balance += msg.value;
         emit Deposit(msg.sender, msg.value);
+    }
+
+    // Function to receive Ether when msg.data is empty
+    receive() external payable {
+        deposit();
+    }
+
+    // Fallback function to receive Ether when msg.data is not empty
+    fallback() external payable {
+        deposit();
     }
 
     // Function to withdraw Ether from the contract
