@@ -39,8 +39,8 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
         }
     };
 
-    let (contract, abi) = match get_or_fetch_abi(&contract_address).await {
-        Ok((c, a)) => (c, a),
+    let contracts_and_abis = match get_or_fetch_abi(&contract_address).await {
+        Ok(list) => list,
         Err(e) => {
             error!("❌ Error al obtener ABI para {}: {}", contract_address, e);
             return HttpResponse::InternalServerError().json(DecodeResponse {
@@ -54,34 +54,42 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
         }
     };
 
-    match decode_function_call(&contract, &req.call_data) {
-        Ok((name, args)) => {
-            let args_str: Vec<String> = args.into_iter().map(|arg| format!("{:?}", arg)).collect();
-            info!(
-                "✅ Decodificación exitosa - Función: {}, Argumentos: {:?}",
-                name, args_str
-            );
-            HttpResponse::Ok().json(DecodeResponse {
-                status: "success".to_string(),
-                function_name: Some(name),
-                arguments: Some(args_str),
-                message: None,
-                details: None,
-                abi: Some(abi),
-            })
-        }
-        Err(e) => {
-            error!("❌ Error al decodificar call data: {}", e);
-            HttpResponse::InternalServerError().json(DecodeResponse {
-                status: "error".to_string(),
-                function_name: None,
-                arguments: None,
-                message: Some("Error al decodificar los datos de llamada".to_string()),
-                details: Some(e.to_string()),
-                abi: None,
-            })
+    let mut last_error = "No ABI found".to_string();
+
+    for (contract, abi) in contracts_and_abis {
+        match decode_function_call(&contract, &req.call_data) {
+            Ok((name, args)) => {
+                let args_str: Vec<String> = args.into_iter().map(|arg| format!("{:?}", arg)).collect();
+                info!(
+                    "✅ Decodificación exitosa - Función: {}, Argumentos: {:?}",
+                    name, args_str
+                );
+                return HttpResponse::Ok().json(DecodeResponse {
+                    status: "success".to_string(),
+                    function_name: Some(name),
+                    arguments: Some(args_str),
+                    message: None,
+                    details: None,
+                    abi: Some(abi),
+                });
+            }
+            Err(e) => {
+                last_error = e.to_string();
+                // Continue to next ABI in list
+            }
         }
     }
+
+    // If we reach here, no ABI worked
+    error!("❌ Error al decodificar call data con ningun ABI: {}", last_error);
+    HttpResponse::InternalServerError().json(DecodeResponse {
+        status: "error".to_string(),
+        function_name: None,
+        arguments: None,
+        message: Some("Error al decodificar los datos de llamada".to_string()),
+        details: Some(format!("Último error: {}", last_error)),
+        abi: None,
+    })
 }
 
 pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder {
@@ -129,9 +137,9 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
         }
     };
 
-    // Get or fetch ABI
-    let (contract, _abi) = match get_or_fetch_abi(&contract_address).await {
-        Ok((c, a)) => (c, a),
+    // Get or fetch ABI (returns a list of potential contracts)
+    let contracts_and_abis = match get_or_fetch_abi(&contract_address).await {
+        Ok(list) => list,
         Err(e) => {
             error!(
                 "❌ Error al obtener ABI para análisis de {}: {}",
@@ -149,25 +157,39 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
         }
     };
 
-    // Decode function call
-    let (function_name, arguments) = match decode_function_call(&contract, &req.call_data) {
-        Ok((name, args)) => {
-            let args_str: Vec<String> = args.into_iter().map(|arg| format!("{:?}", arg)).collect();
-            (name, args_str)
+    // Decode function call - Loop until one works
+    let mut function_name: String = "".to_string();
+    let mut arguments: Vec<String> = Vec::new();
+    let mut decode_success = false;
+    let mut last_decode_error = String::new();
+
+    for (contract, _) in contracts_and_abis {
+        match decode_function_call(&contract, &req.call_data) {
+            Ok((name, args)) => {
+                let args_str: Vec<String> = args.into_iter().map(|arg| format!("{:?}", arg)).collect();
+                function_name = name;
+                arguments = args_str;
+                decode_success = true;
+                break; // Found matching ABI
+            }
+            Err(e) => {
+                last_decode_error = e.to_string();
+            }
         }
-        Err(e) => {
-            error!("❌ Error al decodificar call data en análisis: {}", e);
-            return HttpResponse::InternalServerError().json(AnalysisResponse {
-                status: "error".to_string(),
-                function_name: None,
-                arguments: None,
-                risk_level: None,
-                explanation: None,
-                message: Some("Error al decodificar los datos de llamada".to_string()),
-                details: Some(e.to_string()),
-            });
-        }
-    };
+    }
+
+    if !decode_success {
+        error!("❌ Error al decodificar call data en análisis: {}", last_decode_error);
+        return HttpResponse::InternalServerError().json(AnalysisResponse {
+            status: "error".to_string(),
+            function_name: None,
+            arguments: None,
+            risk_level: None,
+            explanation: None,
+            message: Some("Error al decodificar los datos de llamada".to_string()),
+            details: Some(last_decode_error),
+        });
+    }
 
     // Cargar configuración del prompt
     let prompt_config = match load_prompt_config() {
