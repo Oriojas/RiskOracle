@@ -7,7 +7,7 @@ pub fn decode_function_call(
     let call_data_bytes = hex::decode(call_data.strip_prefix("0x").unwrap_or(call_data))?;
 
     if call_data_bytes.len() < 4 {
-        return Err("Datos de llamada muy cortos".into());
+        return Err("Call data is too short".into());
     }
 
     let function_selector = &call_data_bytes[0..4];
@@ -30,7 +30,7 @@ pub fn decode_function_call(
     }
 
     Err(format!(
-        "No se encontró función coincidente para el selector: 0x{}",
+        "No matching function found for selector: 0x{}",
         hex::encode(function_selector)
     )
     .into())

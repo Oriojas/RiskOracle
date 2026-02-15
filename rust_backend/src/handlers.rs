@@ -12,11 +12,11 @@ use url::Url;
 use crate::abi::get_or_fetch_abi;
 use crate::config::load_prompt_config;
 use crate::decode::decode_function_call;
-use crate::{AnalysisRequest, AnalysisResponse, DecodeRequest, DecodeResponse};
+use crate::{AnalysisRequest, AnalysisResponse, ChainlinkAuditRequest, ChainlinkAuditResponse, DecodeRequest, DecodeResponse};
 
 pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
     info!(
-        "📥 Petición recibida en /decode - Contrato: {}",
+        "📥 Decode request received - Contract: {}",
         req.contract_address
     );
 
@@ -25,14 +25,14 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
         Ok(addr) => addr,
         Err(e) => {
             warn!(
-                "❌ Dirección de contrato inválida: {} - Error: {}",
+                "❌ Invalid contract address: {} - Error: {}",
                 req.contract_address, e
             );
             return HttpResponse::BadRequest().json(DecodeResponse {
                 status: "error".to_string(),
                 function_name: None,
                 arguments: None,
-                message: Some(format!("Dirección de contrato inválida: {}", e)),
+                message: Some(format!("Invalid contract address: {}", e)),
                 details: None,
                 abi: None,
             });
@@ -42,12 +42,12 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
     let contracts_and_abis = match get_or_fetch_abi(&contract_address).await {
         Ok(list) => list,
         Err(e) => {
-            error!("❌ Error al obtener ABI para {}: {}", contract_address, e);
+            error!("❌ Failed to fetch ABI for {}: {}", contract_address, e);
             return HttpResponse::InternalServerError().json(DecodeResponse {
                 status: "error".to_string(),
                 function_name: None,
                 arguments: None,
-                message: Some("Error al obtener o cargar el ABI".to_string()),
+                message: Some("Failed to fetch or load the ABI".to_string()),
                 details: Some(e.to_string()),
                 abi: None,
             });
@@ -61,7 +61,7 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
             Ok((name, args)) => {
                 let args_str: Vec<String> = args.into_iter().map(|arg| format!("{:?}", arg)).collect();
                 info!(
-                    "✅ Decodificación exitosa - Función: {}, Argumentos: {:?}",
+                    "✅ Decode successful - Function: {}, Arguments: {:?}",
                     name, args_str
                 );
                 return HttpResponse::Ok().json(DecodeResponse {
@@ -81,20 +81,20 @@ pub async fn decode_handler(req: web::Json<DecodeRequest>) -> impl Responder {
     }
 
     // If we reach here, no ABI worked
-    error!("❌ Error al decodificar call data con ningun ABI: {}", last_error);
+    error!("❌ Failed to decode call data with any ABI: {}", last_error);
     HttpResponse::InternalServerError().json(DecodeResponse {
         status: "error".to_string(),
         function_name: None,
         arguments: None,
-        message: Some("Error al decodificar los datos de llamada".to_string()),
-        details: Some(format!("Último error: {}", last_error)),
+        message: Some("Failed to decode call data".to_string()),
+        details: Some(format!("Last error: {}", last_error)),
         abi: None,
     })
 }
 
 pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder {
     info!(
-        "📥 Petición recibida en /analysis - Contrato: {}",
+        "📥 Analysis request received - Contract: {}",
         req.contract_address
     );
 
@@ -102,7 +102,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
         Ok(key) => key,
         Err(_) => {
             error!(
-                "❌ DEEPSEEK_API_KEY no configurada para análisis de contrato: {}",
+                "❌ DEEPSEEK_API_KEY not configured for contract analysis: {}",
                 req.contract_address
             );
             return HttpResponse::InternalServerError().json(AnalysisResponse {
@@ -111,8 +111,8 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                 arguments: None,
                 risk_level: None,
                 explanation: None,
-                message: Some("DEEPSEEK_API_KEY no configurada".to_string()),
-                details: Some("Asegúrate de configurar la variable de entorno DEEPSEEK_API_KEY en tu archivo .env".to_string()),
+                message: Some("DEEPSEEK_API_KEY not configured".to_string()),
+                details: Some("Make sure to set the DEEPSEEK_API_KEY environment variable in your .env file".to_string()),
             });
         }
     };
@@ -122,7 +122,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
         Ok(addr) => addr,
         Err(e) => {
             warn!(
-                "❌ Dirección de contrato inválida en análisis: {} - Error: {}",
+                "❌ Invalid contract address in analysis: {} - Error: {}",
                 req.contract_address, e
             );
             return HttpResponse::BadRequest().json(AnalysisResponse {
@@ -131,7 +131,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                 arguments: None,
                 risk_level: None,
                 explanation: None,
-                message: Some(format!("Dirección de contrato inválida: {}", e)),
+                message: Some(format!("Invalid contract address: {}", e)),
                 details: None,
             });
         }
@@ -142,7 +142,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
         Ok(list) => list,
         Err(e) => {
             error!(
-                "❌ Error al obtener ABI para análisis de {}: {}",
+                "❌ Failed to fetch ABI for analysis of {}: {}",
                 contract_address, e
             );
             return HttpResponse::InternalServerError().json(AnalysisResponse {
@@ -151,7 +151,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                 arguments: None,
                 risk_level: None,
                 explanation: None,
-                message: Some("Error al obtener o cargar el ABI".to_string()),
+                message: Some("Failed to fetch or load the ABI".to_string()),
                 details: Some(e.to_string()),
             });
         }
@@ -179,30 +179,30 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
     }
 
     if !decode_success {
-        error!("❌ Error al decodificar call data en análisis: {}", last_decode_error);
+        error!("❌ Failed to decode call data in analysis: {}", last_decode_error);
         return HttpResponse::InternalServerError().json(AnalysisResponse {
             status: "error".to_string(),
             function_name: None,
             arguments: None,
             risk_level: None,
             explanation: None,
-            message: Some("Error al decodificar los datos de llamada".to_string()),
+            message: Some("Failed to decode call data".to_string()),
             details: Some(last_decode_error),
         });
     }
 
-    // Cargar configuración del prompt
+    // Load prompt configuration
     let prompt_config = match load_prompt_config() {
         Ok(config) => config,
         Err(e) => {
-            error!("❌ Error al cargar configuración del prompt: {}", e);
+            error!("❌ Failed to load prompt configuration: {}", e);
             return HttpResponse::InternalServerError().json(AnalysisResponse {
                 status: "error".to_string(),
                 function_name: Some(function_name),
                 arguments: Some(arguments),
                 risk_level: None,
                 explanation: None,
-                message: Some("Error al cargar la configuración del prompt".to_string()),
+                message: Some("Failed to load prompt configuration".to_string()),
                 details: Some(e.to_string()),
             });
         }
@@ -211,14 +211,14 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
     let api_url = match Url::parse("https://api.deepseek.com/chat/completions") {
         Ok(url) => url,
         Err(e) => {
-            error!("❌ Error al construir URL de API DeepSeek: {}", e);
+            error!("❌ Failed to build DeepSeek API URL: {}", e);
             return HttpResponse::InternalServerError().json(AnalysisResponse {
                 status: "error".to_string(),
                 function_name: Some(function_name),
                 arguments: Some(arguments),
                 risk_level: None,
                 explanation: None,
-                message: Some("Error interno al construir la URL de la API".to_string()),
+                message: Some("Internal error building API URL".to_string()),
                 details: Some(e.to_string()),
             });
         }
@@ -250,7 +250,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
     });
 
     info!(
-        "📤 Enviando solicitud a DeepSeek API - Función: {}",
+        "📤 Sending request to DeepSeek API - Function: {}",
         function_name
     );
 
@@ -264,7 +264,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
     match response {
         Ok(res) => {
             let status = res.status();
-            info!("📥 Respuesta de DeepSeek - Status: {}", status);
+            info!("📥 DeepSeek response - Status: {}", status);
             let full_response: Result<Value, _> = res.json().await;
 
             match full_response {
@@ -273,8 +273,8 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                         .as_str()
                         .unwrap_or("");
 
-                    // Log del contenido completo para depuración
-                    info!("📄 Contenido completo de la respuesta LLM: {}", content);
+                    // Log full content for debugging
+                    info!("📄 Full LLM response content: {}", content);
 
                     let risk_level = content
                         .lines()
@@ -299,14 +299,14 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                     };
 
                     if status.is_success() {
-                        info!("✅ Análisis completado exitosamente - Función: {}, Nivel de riesgo: {:?}", function_name, risk_level);
+                        info!("✅ Analysis completed successfully - Function: {}, Risk level: {:?}", function_name, risk_level);
                         HttpResponse::Ok().json(AnalysisResponse {
                             status: "success".to_string(),
                             function_name: Some(function_name),
                             arguments: Some(arguments),
                             risk_level,
                             explanation,
-                            message: Some("Análisis de riesgo completado".to_string()),
+                            message: Some("Risk analysis completed".to_string()),
                             details: None,
                         })
                     } else {
@@ -321,7 +321,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                             risk_level: None,
                             explanation: None,
                             message: Some(format!(
-                                "Error en la API de DeepSeek (HTTP status: {})",
+                                "DeepSeek API error (HTTP status: {})",
                                 status
                             )),
                             details: Some(json_response.to_string()),
@@ -329,29 +329,200 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                     }
                 }
                 Err(e) => {
-                    error!("❌ Error al parsear JSON de DeepSeek: {}", e);
+                    error!("❌ Failed to parse DeepSeek JSON: {}", e);
                     HttpResponse::InternalServerError().json(AnalysisResponse {
                         status: "error".to_string(),
                         function_name: Some(function_name),
                         arguments: Some(arguments),
                         risk_level: None,
                         explanation: None,
-                        message: Some("Error al parsear la respuesta JSON de DeepSeek".to_string()),
+                        message: Some("Failed to parse DeepSeek JSON response".to_string()),
                         details: Some(e.to_string()),
                     })
                 }
             }
         }
         Err(e) => {
-            error!("❌ Error al llamar a API DeepSeek: {}", e);
+            error!("❌ Failed to call DeepSeek API: {}", e);
             HttpResponse::InternalServerError().json(AnalysisResponse {
                 status: "error".to_string(),
                 function_name: Some(function_name),
                 arguments: Some(arguments),
                 risk_level: None,
                 explanation: None,
-                message: Some("Error al llamar a la API de DeepSeek".to_string()),
+                message: Some("Failed to call DeepSeek API".to_string()),
                 details: Some(e.to_string()),
+            })
+        }
+    }
+}
+
+/// Handler for the /chainlink-audit endpoint.
+/// Executes the CRE workflow simulation and returns the verified result.
+pub async fn chainlink_audit_handler(
+    req: web::Json<ChainlinkAuditRequest>,
+) -> impl Responder {
+    info!(
+        "🔗 Chainlink Audit request - Contract: {}",
+        req.contract_address
+    );
+
+    // Path to the CRE project
+    let cre_project_path = match env::var("CRE_PROJECT_PATH") {
+        Ok(path) => path,
+        Err(_) => {
+            // Default relative path from rust_backend to cre/risk_oracle
+            let default_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .parent()
+                .unwrap_or(std::path::Path::new("."))
+                .join("cre")
+                .join("risk_oracle");
+            default_path.to_string_lossy().to_string()
+        }
+    };
+
+    info!("📁 CRE project path: {}", cre_project_path);
+
+    // Update config.staging.json with the requested contract address
+    let config_path = format!(
+        "{}/risk_oracle_wf1/config.staging.json",
+        cre_project_path
+    );
+
+    let config_content = json!({
+        "schedule": "0 */5 * * * *",
+        "contractAddress": req.contract_address,
+        "etherscanChainId": "11155111"
+    });
+
+    if let Err(e) = std::fs::write(&config_path, serde_json::to_string_pretty(&config_content).unwrap()) {
+        error!("Failed to write CRE config: {}", e);
+        return HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
+            status: "error".to_string(),
+            risk_level: None,
+            explanation: None,
+            dangerous_functions: None,
+            auditor: None,
+            verified_timestamp: None,
+            message: Some(format!("Failed to write CRE config: {}", e)),
+        });
+    }
+
+    // Execute the CRE workflow simulation
+    info!("🚀 Executing CRE workflow simulation...");
+
+    let simulate_result = tokio::process::Command::new("cre")
+        .args(&[
+            "workflow",
+            "simulate",
+            "risk_oracle_wf1",
+            "--non-interactive",
+            "--trigger-index",
+            "0",
+        ])
+        .current_dir(&cre_project_path)
+        .output()
+        .await;
+
+    match simulate_result {
+        Ok(output) => {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            let combined = format!("{}{}", stdout, stderr);
+
+            info!("CRE simulation exit code: {:?}", output.status.code());
+
+            // Extract the JSON result from the simulation output
+            // The result appears after "Workflow Simulation Result:"
+            if let Some(json_start) = combined.find("Workflow Simulation Result:") {
+                let after_marker = &combined[json_start + "Workflow Simulation Result:".len()..];
+
+                // Find the JSON object in the output
+                if let Some(brace_start) = after_marker.find('{') {
+                    let json_str = &after_marker[brace_start..];
+
+                    // Find the matching closing brace
+                    let mut depth = 0;
+                    let mut end_idx = 0;
+                    for (i, ch) in json_str.char_indices() {
+                        match ch {
+                            '{' => depth += 1,
+                            '}' => {
+                                depth -= 1;
+                                if depth == 0 {
+                                    end_idx = i + 1;
+                                    break;
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    if end_idx > 0 {
+                        let json_result = &json_str[..end_idx];
+                        match serde_json::from_str::<Value>(json_result) {
+                            Ok(parsed) => {
+                                info!("✅ CRE audit completed successfully");
+                                return HttpResponse::Ok().json(ChainlinkAuditResponse {
+                                    status: "success".to_string(),
+                                    risk_level: parsed["risk_level"].as_str().map(|s| s.to_string()),
+                                    explanation: parsed["explanation"].as_str().map(|s| s.to_string()),
+                                    dangerous_functions: parsed["dangerous_functions"].as_str().map(|s| s.to_string()),
+                                    auditor: parsed["auditor"].as_str().map(|s| s.to_string()),
+                                    verified_timestamp: parsed["timestamp"].as_str().map(|s| s.to_string()),
+                                    message: None,
+                                });
+                            }
+                            Err(e) => {
+                                error!("Failed to parse CRE JSON result: {}", e);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Check for execution error
+            if combined.contains("Workflow execution failed") {
+                let error_msg = combined
+                    .lines()
+                    .find(|l| l.contains("Error"))
+                    .unwrap_or("Unknown CRE execution error")
+                    .to_string();
+
+                error!("CRE workflow failed: {}", error_msg);
+                return HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
+                    status: "error".to_string(),
+                    risk_level: None,
+                    explanation: None,
+                    dangerous_functions: None,
+                    auditor: Some("Chainlink Decentralized Network".to_string()),
+                    verified_timestamp: None,
+                    message: Some(error_msg),
+                });
+            }
+
+            // Fallback: couldn't parse result
+            error!("Could not extract CRE result from output");
+            HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
+                status: "error".to_string(),
+                risk_level: None,
+                explanation: None,
+                dangerous_functions: None,
+                auditor: None,
+                verified_timestamp: None,
+                message: Some("Could not parse CRE workflow output".to_string()),
+            })
+        }
+        Err(e) => {
+            error!("Failed to execute CRE CLI: {}", e);
+            HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
+                status: "error".to_string(),
+                risk_level: None,
+                explanation: None,
+                dangerous_functions: None,
+                auditor: None,
+                verified_timestamp: None,
+                message: Some(format!("Failed to execute CRE CLI: {}. Make sure 'cre' is installed and in PATH.", e)),
             })
         }
     }
