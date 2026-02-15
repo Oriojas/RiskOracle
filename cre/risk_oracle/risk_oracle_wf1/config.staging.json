@@ -1,5 +1,5 @@
 {
-  "schedule": "0 */5 * * * *",
   "contractAddress": "0x4aB3f90B12b1Bd7653EBC4bC5702078F0Bf67fBd",
-  "etherscanChainId": "11155111"
+  "etherscanChainId": "11155111",
+  "schedule": "0 */5 * * * *"
 }

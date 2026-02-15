@@ -14,7 +14,7 @@ export default function TransactionForm({ onSubmit, loading }) {
     return (
         <form onSubmit={handleSubmit} className="cyber-panel" style={{ marginTop: '2rem' }}>
             <h2 className="cyber-text" style={{ color: 'var(--neon-cyan)', marginBottom: '1.5rem' }}>
-                &gt; Iniciar Escaneo
+                &gt; Start Scan
             </h2>
 
             <div style={{ marginBottom: '1rem' }}>
@@ -52,7 +52,7 @@ export default function TransactionForm({ onSubmit, loading }) {
                         <span className="cyber-spinner"></span>
                         <span>ANALYZING NETWORK...</span>
                     </div>
-                ) : 'EJECUTAR ANÁLISIS'}
+                ) : 'RUN ANALYSIS'}
             </button>
         </form>
     );
