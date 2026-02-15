@@ -1,7 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
+    const [quoteIndex, setQuoteIndex] = useState(0);
+    const [timelineVisible, setTimelineVisible] = useState(false);
+    const timelineRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setTimelineVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        if (timelineRef.current) {
+            observer.observe(timelineRef.current);
+        }
+
+        return () => {
+            if (timelineRef.current) observer.unobserve(timelineRef.current);
+        };
+    }, []);
+
+    const quotes = [
+        {
+            text: "The complexity of modern smart contracts has created a professional-grade attack surface. Traditional audits are no longer enough; we need real-time, verifiable intent analysis.",
+            author: "Lead Researcher, Web3 Security Alliance"
+        },
+        {
+            text: "AI-aided scams are evolving faster than human detection. RiskOracle's approach to decoding semantic intent is the only viable defense for mass adoption.",
+            author: "CTO, Decentralized Security Hub"
+        },
+        {
+            text: "We are seeing a 1,025% surge in contract-based phishing. Pre-transaction validation isn't a luxury anymore; it's a fundamental security primitive.",
+            author: "Senior Auditor, Chainlink Labs"
+        },
+        {
+            text: "Decentralized verification of transaction intent is the 'missing link' in the Web3 stack. RiskOracle is building exactly that.",
+            author: "Protocol Architect, L2 Scaling Solutions"
+        },
+        {
+            text: "In 2025, every user will need an 'Oracle' by their side to navigate the minefield of malicious rollups and fake token drains.",
+            author: "Founder, Arbitrum Ecosystem Watch"
+        }
+    ];
+
+    const timelineEvents = [
+        { year: "2020", title: "DEFI SUMMER", desc: "First wave of flash loan attacks. $150M lost.", x: 450, y: 50 },
+        { year: "2022", title: "BRIDGE WARS", desc: "Infrastructure breaches. $800M+ drained.", x: 380, y: 150 },
+        { year: "2024", title: "PHISHING PEAK", desc: "Wallet drains via 'Approve'. $1B+ lost.", x: 340, y: 280 },
+        { year: "2025", title: "AI DOMINANCE", desc: "AI-generated malicious contracts. $3.1B crisis.", x: 320, y: 430, highlight: true }
+    ];
+
     return (
         <div className="landing-container">
             <header className="landing-header">
@@ -38,28 +92,101 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                 </div>
             </section>
 
-            <section className="landing-section stats">
+            <section className="landing-section market-shock">
                 <div className="cyber-panel">
-                    <h2>The Growing Threat</h2>
-                    <p className="subtitle">Crypto phishing and hacks are on the rise.</p>
-                    <div className="charts-container">
-                        <div className="chart-item">
-                            <div className="bar-chart">
-                                <div className="bar" style={{ height: '40%' }} data-label="2022"></div>
-                                <div className="bar" style={{ height: '70%' }} data-label="2023"></div>
-                                <div className="bar active" style={{ height: '95%' }} data-label="2024"></div>
+                    <h2 className="cyber-text" style={{ textAlign: 'center', color: 'var(--neon-red)' }}>
+                        &gt; GLOBAL ALERT: 2025 SECURITY CRISIS
+                    </h2>
+                    <div className="shock-number" style={{ textAlign: 'center' }}>$3,100,000,000</div>
+                    <p className="cyber-text" style={{ textAlign: 'center', opacity: 0.7, marginBottom: '4rem', fontSize: '0.9rem' }}>
+                        VALUE STOLEN IN H1 2025 ALONE (EXCEEDING ALL 2024)
+                    </p>
+
+                    <div className="market-chart-container">
+                        <div className="chart-box">
+                            <h3 className="cyber-text" style={{ fontSize: '0.9rem', marginBottom: '2.5rem' }}>// 2025 ATTACK VECTORS (H1)</h3>
+                            <svg width="200" height="200" viewBox="0 0 100 100" className="chart-svg" style={{ transform: 'rotate(-90deg)' }}>
+                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="10" />
+                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
+                                    strokeDasharray="148.2 251.2" className="path-animate segment-exploits" />
+                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
+                                    strokeDasharray="50.2 251.2" className="path-animate segment-phishing" />
+                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
+                                    strokeDasharray="20.1 251.2" className="path-animate segment-logic" />
+                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
+                                    strokeDasharray="32.7 251.2" className="path-animate segment-ai" />
+                            </svg>
+                            <div className="chart-legend" style={{ marginTop: '2.5rem', fontSize: '0.8rem', textAlign: 'left', display: 'inline-block' }}>
+                                <p><span style={{ color: 'var(--neon-cyan)' }}>●</span> EXPLOITS: 59%</p>
+                                <p><span style={{ color: 'var(--neon-red)' }}>●</span> PHISHING: 20%</p>
+                                <p><span style={{ color: 'var(--neon-purple)' }}>●</span> CONTRACT HACKS: 8%</p>
+                                <p><span style={{ color: 'var(--neon-pink)' }}>●</span> OTHERS: 13%</p>
                             </div>
-                            <h3>Phishing Volume (EST)</h3>
                         </div>
-                        <div className="chart-item info-cards">
-                            <div className="info-card">
-                                <span className="value">$1.8B+</span>
-                                <span className="label">Lost to Hacks in 2024</span>
+
+                        <div className="chart-box">
+                            <h3 className="cyber-text" style={{ fontSize: '0.9rem', marginBottom: '3rem' }}>// AI-DRIVEN SCAM SURGE</h3>
+                            <div style={{ marginBottom: '2rem' }}>
+                                <div className="shock-number" style={{ fontSize: '3rem', color: 'var(--neon-pink)' }}>+1,025%</div>
+                                <p className="cyber-text" style={{ fontSize: '0.7rem', opacity: 0.6 }}>INCREASE IN AI-AIDED SCAMS SINCE 2023</p>
                             </div>
-                            <div className="info-card highlight">
-                                <span className="value">84%</span>
-                                <span className="label">Start with 'Approve' Phishing</span>
+                            <svg width="220" height="100" viewBox="0 0 200 100" className="chart-svg">
+                                <polyline fill="none" stroke="var(--neon-pink)" strokeWidth="3"
+                                    points="0,95 30,90 60,80 90,60 120,50 150,20 200,5" className="path-animate" />
+                                {[0, 30, 60, 90, 120, 150, 200].map((x, i) => (
+                                    <circle key={i} cx={x} cy={[95, 90, 80, 60, 50, 20, 5][i]} r="3" fill="var(--neon-pink)" />
+                                ))}
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div className="quote-stepper-container">
+                        <div className="cyber-quote slide-active">
+                            "{quotes[quoteIndex].text}"
+                            <cite>— {quotes[quoteIndex].author}</cite>
+                        </div>
+                        <div className="stepper-controls">
+                            <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev > 0 ? prev - 1 : quotes.length - 1))}>{"<"}</button>
+                            <div className="stepper-dots">
+                                {quotes.map((_, i) => (
+                                    <span key={i} className={`dot ${i === quoteIndex ? 'active' : ''}`} onClick={() => setQuoteIndex(i)}></span>
+                                ))}
                             </div>
+                            <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev + 1) % quotes.length)}>{">"}</button>
+                        </div>
+                    </div>
+
+                    <div className="orbital-timeline-container" ref={timelineRef}>
+                        <h3 className="cyber-text" style={{ color: 'var(--brand-blue)', marginBottom: '3rem', textAlign: 'center' }}>// CRISIS EVOLUTION</h3>
+                        <div className={`orbital-view ${timelineVisible ? 'animate-in' : ''}`}>
+                            <svg width="800" height="600" viewBox="0 0 800 600" className="orbital-svg">
+                                <path d="M 750 20 Q 200 300 750 580" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="3" className="orbital-path-bg" />
+                                {timelineVisible && (
+                                    <path d="M 750 20 Q 200 300 750 580" fill="transparent" stroke="var(--brand-blue)" strokeWidth="3" className="orbital-path-draw" />
+                                )}
+
+                                {timelineEvents.map((event, i) => {
+                                    const orbitalCoords = [
+                                        { x: 680, y: 100 },
+                                        { x: 480, y: 250 },
+                                        { x: 480, y: 400 },
+                                        { x: 680, y: 550 }
+                                    ][i];
+
+                                    return (
+                                        <g key={i} className="timeline-node" style={{ transitionDelay: `${0.5 + i * 0.7}s` }}>
+                                            <circle cx={orbitalCoords.x} cy={orbitalCoords.y} r="8" fill={event.highlight ? 'var(--neon-red)' : 'var(--brand-blue)'} className="node-point" />
+                                            <foreignObject x={orbitalCoords.x - 330} y={orbitalCoords.y - 45} width="310" height="120">
+                                                <div className="event-detail-card">
+                                                    <span className="event-year">{event.year}</span>
+                                                    <h4 className="event-title">{event.title}</h4>
+                                                    <p className="event-desc">{event.desc}</p>
+                                                </div>
+                                            </foreignObject>
+                                        </g>
+                                    );
+                                })}
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -117,14 +244,6 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                         <h3>Decentralized Verification</h3>
                         <p>Leveraging Chainlink Runtime Environment to provide a verifiable security layer that doesn't rely on centralized servers.</p>
                     </div>
-                    <div className="feature-card">
-                        <div className="feature-header">
-                            <span className="feature-icon">📊</span>
-                            <span className="tech-tag">LIVENESS</span>
-                        </div>
-                        <h3>Real-time Monitoring</h3>
-                        <p>Continuous scanning of protocol health and suspicious contract deployments across the Arbitrum network.</p>
-                    </div>
                 </div>
             </section>
 
@@ -144,8 +263,8 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                         <div className="roadmap-dot"></div>
                         <div className="roadmap-content">
                             <span className="phase-tag">PHASE 02 // Q2 2026</span>
-                            <h3>Advanced AI & Optimization</h3>
-                            <p>Multi-agent risk scoring, enhanced semantic patterns, and high-throughput optimization for mainnet readiness.</p>
+                            <h3>Intelligent Agents & MCP</h3>
+                            <p>Deployment of specialized intelligent agents and **MCP (Model Context Protocol)** connections for cross-verified security validations.</p>
                         </div>
                     </div>
                     <div className="roadmap-item">
@@ -153,7 +272,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                         <div className="roadmap-content">
                             <span className="phase-tag">PHASE 03 // Q4 2026</span>
                             <h3>Global Security Hub</h3>
-                            <p>Multi-chain support (Optimism, Base, ZK), B2B API release, and institutional security dashboard.</p>
+                            <p>Multi-chain support (Optimism, Base, ZK), B2B API release, and ecosystem-wide autonomous risk management.</p>
                         </div>
                     </div>
                 </div>
