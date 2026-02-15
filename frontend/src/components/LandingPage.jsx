@@ -90,6 +90,75 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                 </div>
             </section>
 
+            <section className="landing-section features">
+                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem' }}>PRO <span style={{ color: '#fff' }}>FEATURES</span></h1>
+                <div className="features-grid">
+                    <div className="feature-card highlight-rust">
+                        <div className="feature-header">
+                            <span className="feature-icon">🦀</span>
+                            <span className="tech-tag">RUST CORE</span>
+                        </div>
+                        <h3>Memory-Safe Analysis</h3>
+                        <p>Built 100% in Rust for sub-millisecond decoding. Zero garbage collection ensures consistent, lightning-fast safety checks.</p>
+                    </div>
+                    <div className="feature-card">
+                        <div className="feature-header">
+                            <span className="feature-icon">🧠</span>
+                            <span className="tech-tag">DEEPSEEK AI</span>
+                        </div>
+                        <h3>Semantic Intent Detection</h3>
+                        <p>Beyond simple hex decoding, our AI understands the "why" behind a transaction, flagging malicious logic in real-time.</p>
+                    </div>
+                    <div className="feature-card">
+                        <div className="feature-header">
+                            <span className="feature-icon">🔗</span>
+                            <span className="tech-tag">CHAINLINK CRE</span>
+                        </div>
+                        <h3>Decentralized Verification</h3>
+                        <p>Leveraging Chainlink Runtime Environment to provide a verifiable security layer that doesn't rely on centralized servers.</p>
+                    </div>
+                    <div className="feature-card">
+                        <div className="feature-header">
+                            <span className="feature-icon">📊</span>
+                            <span className="tech-tag">LIVENESS</span>
+                        </div>
+                        <h3>Real-time Monitoring</h3>
+                        <p>Continuous scanning of protocol health and suspicious contract deployments across the Arbitrum network.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section className="landing-section roadmap">
+                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem' }}>PROJECT <span style={{ color: '#fff' }}>ROADMAP</span></h1>
+                <div className="roadmap-container">
+                    <div className="roadmap-line"></div>
+                    <div className="roadmap-item current">
+                        <div className="roadmap-dot"></div>
+                        <div className="roadmap-content">
+                            <span className="phase-tag">PHASE 01 // Q1 2026 (MVP)</span>
+                            <h3>Security Foundation & CRE</h3>
+                            <p>Launch of Rust core decoder, DeepSeek AI integration, and core **Chainlink CRE** verifiable security for Arbitrum Sepolia.</p>
+                        </div>
+                    </div>
+                    <div className="roadmap-item">
+                        <div className="roadmap-dot"></div>
+                        <div className="roadmap-content">
+                            <span className="phase-tag">PHASE 02 // Q2 2026</span>
+                            <h3>Advanced AI & Optimization</h3>
+                            <p>Multi-agent risk scoring, enhanced semantic patterns, and high-throughput optimization for mainnet readiness.</p>
+                        </div>
+                    </div>
+                    <div className="roadmap-item">
+                        <div className="roadmap-dot"></div>
+                        <div className="roadmap-content">
+                            <span className="phase-tag">PHASE 03 // Q4 2026</span>
+                            <h3>Global Security Hub</h3>
+                            <p>Multi-chain support (Optimism, Base, ZK), B2B API release, and institutional security dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section className="landing-section team">
                 <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem' }}>DEVELOPED BY <span style={{ color: '#fff' }}>VIBECODERS</span></h1>
                 <div className="team-grid">
