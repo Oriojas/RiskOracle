@@ -311,7 +311,7 @@ pub async fn analysis_handler(req: web::Json<AnalysisRequest>) -> impl Responder
                         })
                     } else {
                         error!(
-                            "❌ Error en API DeepSeek - Status: {}, Respuesta: {}",
+                            "❌ DeepSeek API error - Status: {}, Response: {}",
                             status, json_response
                         );
                         HttpResponse::InternalServerError().json(AnalysisResponse {
@@ -371,7 +371,6 @@ pub async fn chainlink_audit_handler(
     let cre_project_path = match env::var("CRE_PROJECT_PATH") {
         Ok(path) => path,
         Err(_) => {
-            // Default relative path from rust_backend to cre/risk_oracle
             let default_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
                 .parent()
                 .unwrap_or(std::path::Path::new("."))
@@ -404,12 +403,19 @@ pub async fn chainlink_audit_handler(
             dangerous_functions: None,
             auditor: None,
             verified_timestamp: None,
+            verification_hash: None,
             message: Some(format!("Failed to write CRE config: {}", e)),
         });
     }
 
-    // Execute the CRE workflow simulation
-    info!("🚀 Executing CRE workflow simulation...");
+    // Execute the CRE workflow simulation with detailed terminal logging
+    info!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    info!("🔗 CHAINLINK CRE WORKFLOW EXECUTION START");
+    info!("   📋 Contract: {}", req.contract_address);
+    info!("   📋 Call Data: {}", req.call_data);
+    info!("   🕐 Timestamp: {}", chrono::Utc::now().format("%Y-%m-%d %H:%M:%S UTC"));
+    info!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    info!("🚀 Launching CRE CLI: cre workflow simulate risk_oracle_wf1");
 
     let simulate_result = tokio::process::Command::new("cre")
         .args(&[
@@ -430,18 +436,29 @@ pub async fn chainlink_audit_handler(
             let stderr = String::from_utf8_lossy(&output.stderr);
             let combined = format!("{}{}", stdout, stderr);
 
-            info!("CRE simulation exit code: {:?}", output.status.code());
+            info!("📊 CRE simulation exit code: {:?}", output.status.code());
+
+            // Log full CRE output for real-time demo
+            info!("┌─────────────── CRE STDOUT ───────────────┐");
+            for line in stdout.lines() {
+                info!("│ {}", line);
+            }
+            info!("└───────────────────────────────────────────┘");
+            if !stderr.is_empty() {
+                info!("┌─────────────── CRE STDERR ───────────────┐");
+                for line in stderr.lines() {
+                    warn!("│ {}", line);
+                }
+                info!("└───────────────────────────────────────────┘");
+            }
 
             // Extract the JSON result from the simulation output
-            // The result appears after "Workflow Simulation Result:"
             if let Some(json_start) = combined.find("Workflow Simulation Result:") {
                 let after_marker = &combined[json_start + "Workflow Simulation Result:".len()..];
 
-                // Find the JSON object in the output
                 if let Some(brace_start) = after_marker.find('{') {
                     let json_str = &after_marker[brace_start..];
 
-                    // Find the matching closing brace
                     let mut depth = 0;
                     let mut end_idx = 0;
                     for (i, ch) in json_str.char_indices() {
@@ -462,7 +479,31 @@ pub async fn chainlink_audit_handler(
                         let json_result = &json_str[..end_idx];
                         match serde_json::from_str::<Value>(json_result) {
                             Ok(parsed) => {
-                                info!("✅ CRE audit completed successfully");
+                                // Generate SHA-256 verification hash server-side
+                                use sha2::{Sha256, Digest};
+                                let hash_input = format!(
+                                    "chainlink-don-v1|{}|{}|{}|{}|{}|{}",
+                                    req.contract_address,
+                                    parsed["risk_level"].as_str().unwrap_or(""),
+                                    parsed["explanation"].as_str().unwrap_or(""),
+                                    parsed["dangerous_functions"].as_str().unwrap_or(""),
+                                    parsed["auditor"].as_str().unwrap_or(""),
+                                    parsed["timestamp"].as_str().unwrap_or(""),
+                                );
+                                let mut hasher = Sha256::new();
+                                hasher.update(hash_input.as_bytes());
+                                let hash_result = hasher.finalize();
+                                let verification_hash = format!("0x{}", hex::encode(hash_result));
+
+                                info!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                                info!("✅ CHAINLINK CRE WORKFLOW COMPLETE");
+                                info!("   🎯 Risk Level: {}", parsed["risk_level"].as_str().unwrap_or("N/A"));
+                                info!("   🔐 Verification Hash: {}", verification_hash);
+                                info!("   ⚠️  Dangerous Functions: {}", parsed["dangerous_functions"].as_str().unwrap_or("None"));
+                                info!("   👤 Auditor: {}", parsed["auditor"].as_str().unwrap_or("N/A"));
+                                info!("   🕐 Timestamp: {}", parsed["timestamp"].as_str().unwrap_or("N/A"));
+                                info!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
                                 return HttpResponse::Ok().json(ChainlinkAuditResponse {
                                     status: "success".to_string(),
                                     risk_level: parsed["risk_level"].as_str().map(|s| s.to_string()),
@@ -470,6 +511,7 @@ pub async fn chainlink_audit_handler(
                                     dangerous_functions: parsed["dangerous_functions"].as_str().map(|s| s.to_string()),
                                     auditor: parsed["auditor"].as_str().map(|s| s.to_string()),
                                     verified_timestamp: parsed["timestamp"].as_str().map(|s| s.to_string()),
+                                    verification_hash: Some(verification_hash),
                                     message: None,
                                 });
                             }
@@ -489,7 +531,7 @@ pub async fn chainlink_audit_handler(
                     .unwrap_or("Unknown CRE execution error")
                     .to_string();
 
-                error!("CRE workflow failed: {}", error_msg);
+                error!("❌ CRE workflow failed: {}", error_msg);
                 return HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
                     status: "error".to_string(),
                     risk_level: None,
@@ -497,6 +539,7 @@ pub async fn chainlink_audit_handler(
                     dangerous_functions: None,
                     auditor: Some("Chainlink Decentralized Network".to_string()),
                     verified_timestamp: None,
+                    verification_hash: None,
                     message: Some(error_msg),
                 });
             }
@@ -510,11 +553,12 @@ pub async fn chainlink_audit_handler(
                 dangerous_functions: None,
                 auditor: None,
                 verified_timestamp: None,
+                verification_hash: None,
                 message: Some("Could not parse CRE workflow output".to_string()),
             })
         }
         Err(e) => {
-            error!("Failed to execute CRE CLI: {}", e);
+            error!("❌ Failed to execute CRE CLI: {}", e);
             HttpResponse::InternalServerError().json(ChainlinkAuditResponse {
                 status: "error".to_string(),
                 risk_level: None,
@@ -522,8 +566,10 @@ pub async fn chainlink_audit_handler(
                 dangerous_functions: None,
                 auditor: None,
                 verified_timestamp: None,
+                verification_hash: None,
                 message: Some(format!("Failed to execute CRE CLI: {}. Make sure 'cre' is installed and in PATH.", e)),
             })
         }
     }
 }
+
