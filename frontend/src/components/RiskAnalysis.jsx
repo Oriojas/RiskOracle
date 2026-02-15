@@ -8,7 +8,7 @@ export default function RiskAnalysis({ data }) {
     const isError = status === 'error';
 
     return (
-        <div className="cyber-panel" style={{ marginTop: '2rem', borderColor: isError ? 'var(--neon-red)' : 'var(--neon-cyan)' }}>
+        <div className="cyber-panel page-fade-enter-active" style={{ marginTop: '2rem', borderColor: isError ? 'var(--neon-red)' : 'var(--neon-cyan)' }}>
             <h2 className="cyber-text" style={{ color: isError ? 'var(--neon-red)' : 'var(--neon-green)', marginBottom: '1.5rem' }}>
                 {isError ? '! SYSTEM ERROR !' : '> ANALYSIS COMPLETE'}
             </h2>
