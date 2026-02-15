@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { requestChainlinkAudit } from '../api';
 
-// Generate SHA-256 hash from a string (using Web Crypto API)
-async function generateVerificationHash(data) {
-    const msgBuffer = new TextEncoder().encode(data);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
 export default function ChainlinkVerification({ contractAddress, callData, initialRiskLevel }) {
     const [auditData, setAuditData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [verificationHash, setVerificationHash] = useState(null);
     const [loadingStep, setLoadingStep] = useState(0);
 
     // Animate loading steps
@@ -30,24 +21,12 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
         setLoading(true);
         setError(null);
         setAuditData(null);
-        setVerificationHash(null);
         try {
             const result = await requestChainlinkAudit(contractAddress, callData);
             if (result.status === 'error') {
                 setError(result.message || 'Verification failed');
             } else {
                 setAuditData(result);
-                // Generate verification hash from the complete result
-                const hashInput = JSON.stringify({
-                    contract: contractAddress,
-                    risk_level: result.risk_level,
-                    explanation: result.explanation,
-                    dangerous_functions: result.dangerous_functions,
-                    auditor: result.auditor,
-                    timestamp: result.verified_timestamp,
-                });
-                const hash = await generateVerificationHash(hashInput);
-                setVerificationHash(hash);
             }
         } catch (err) {
             setError(err.message);
@@ -156,7 +135,7 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
                     </div>
 
                     {/* Verification Hash */}
-                    {verificationHash && (
+                    {auditData.verification_hash && (
                         <div className="verification-hash-container">
                             <div className="hash-header">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -166,17 +145,20 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
                                 <span>Verification Hash (SHA-256)</span>
                             </div>
                             <div className="hash-value">
-                                <code>0x{verificationHash.slice(0, 16)}...{verificationHash.slice(-16)}</code>
+                                <code>{auditData.verification_hash.slice(0, 18)}...{auditData.verification_hash.slice(-16)}</code>
                                 <button
                                     className="copy-hash-btn"
-                                    onClick={() => navigator.clipboard.writeText('0x' + verificationHash)}
+                                    onClick={() => navigator.clipboard.writeText(auditData.verification_hash)}
                                     title="Copy full hash"
                                 >
                                     📋
                                 </button>
                             </div>
-                            <div className="hash-full" title={`0x${verificationHash}`}>
-                                Full: 0x{verificationHash}
+                            <div className="hash-full" title={auditData.verification_hash}>
+                                Full: {auditData.verification_hash}
+                            </div>
+                            <div className="hash-note" style={{ fontSize: '0.65rem', color: 'rgba(170, 196, 255, 0.5)', marginTop: '0.5rem', fontStyle: 'italic' }}>
+                                * In production, this result would be cryptographically signed by the Chainlink DON and verifiable on-chain via BFT consensus.
                             </div>
                         </div>
                     )}

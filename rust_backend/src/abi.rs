@@ -18,8 +18,8 @@ pub async fn fetch_abi_from_arbiscan(
     let client = Client::new();
 
     // List of Chain IDs to try:
-    // 11155111: Ethereum Sepolia (Prioridad 1)
-    // 421614: Arbitrum Sepolia (Prioridad 2)
+    // 11155111: Ethereum Sepolia (Priority 1)
+    // 421614: Arbitrum Sepolia (Priority 2)
     let chain_ids = ["11155111", "421614"];
     let mut found_abis = Vec::new();
 
