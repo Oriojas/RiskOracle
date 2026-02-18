@@ -11,15 +11,15 @@ pub async fn fetch_abi_from_arbiscan(
     contract_address: &str,
 ) -> Result<Vec<Value>, Box<dyn std::error::Error>> {
     info!(
-        "🌐 Solicitando ABIs de Etherscan/Arbiscan (Multi-chain) para contrato: {}",
+        "🌐 Fetching ABIs from Etherscan/Arbiscan (Multi-chain) for contract: {}",
         contract_address
     );
     let api_key = env::var("ARBISCAN_API_KEY").unwrap_or_default();
     let client = Client::new();
 
-    // Lista de Chain IDs para probar: 
-    // 11155111: Ethereum Sepolia (Prioridad 1)
-    // 421614: Arbitrum Sepolia (Prioridad 2)
+    // List of Chain IDs to try:
+    // 11155111: Ethereum Sepolia (Priority 1)
+    // 421614: Arbitrum Sepolia (Priority 2)
     let chain_ids = ["11155111", "421614"];
     let mut found_abis = Vec::new();
 
@@ -46,26 +46,26 @@ pub async fn fetch_abi_from_arbiscan(
             Ok(response) => {
                 if let Ok(json) = response.json::<Value>().await {
                     if json["status"] == "1" {
-                        info!("✅ ABI encontrado exitosamente en {}", chain_name);
+                        info!("✅ ABI found successfully on {}", chain_name);
                         let abi_string = json["result"].as_str().unwrap();
                         let abi: Value = serde_json::from_str(abi_string)?;
                         found_abis.push(abi);
                     } else {
-                        let msg = json["message"].as_str().unwrap_or("Desconocido");
-                        info!("⚠️ No encontrado en {}: {}", chain_name, msg);
+                        let msg = json["message"].as_str().unwrap_or("Unknown");
+                        info!("⚠️ Not found on {}: {}", chain_name, msg);
                     }
                 } else {
-                    error!("❌ Error al parsear respuesta JSON de {}", chain_name);
+                    error!("❌ Failed to parse JSON response from {}", chain_name);
                 }
             }
             Err(e) => {
-                error!("❌ Error de conexión con {}: {}", chain_name, e);
+                error!("❌ Connection error with {}: {}", chain_name, e);
             }
         }
     }
 
     if found_abis.is_empty() {
-        Err("No se pudo obtener el ABI en ninguna de las redes. Verifique la dirección y la verificación del contrato.".into())
+        Err("Could not fetch ABI on any network. Verify the address and contract verification status.".into())
     } else {
         Ok(found_abis)
     }
@@ -80,19 +80,19 @@ pub async fn get_or_fetch_abi(
     let abi_path = Path::new(abi_dir).join(&abi_filename);
 
     if !Path::new(abi_dir).exists() {
-        info!("📁 Creando directorio ABI: {}", abi_dir);
+        info!("📁 Creating ABI directory: {}", abi_dir);
         fs::create_dir_all(abi_dir)?;
     }
 
     if abi_path.exists() {
-        info!("📖 Cargando ABI desde archivo local: {}", abi_filename);
+        info!("📖 Loading ABI from local file: {}", abi_filename);
         let abi_string = fs::read_to_string(&abi_path)?;
         let abi: Value = serde_json::from_str(&abi_string)?;
         
-        // Cargar y mostrar funciones disponibles
+        // Load and display available functions
         let contract = Contract::load(abi.to_string().as_bytes())?;
         
-        info!("🔎 Funciones cargadas desde cache local:");
+        info!("🔎 Functions loaded from local cache:");
         for (name, _) in &contract.functions {
             info!("   - {}", name);
         }
@@ -102,7 +102,7 @@ pub async fn get_or_fetch_abi(
 
     let address_string = format!("{:?}", contract_address);
     info!(
-        "🌐 ABI no encontrado localmente ({}), buscando en Multi-chain...",
+        "🌐 ABI not found locally ({}), searching Multi-chain...",
         abi_filename
     );
 
@@ -113,7 +113,7 @@ pub async fn get_or_fetch_abi(
                  let abi_str = serde_json::to_string(abi)?;
                  if let Ok(contract) = Contract::load(abi_str.as_bytes()) {
                      // Log functions for this ABI
-                     info!("🔎 Funciones encontradas en ABI descargado:");
+                     info!("🔎 Functions found in downloaded ABI:");
                      for (name, _) in &contract.functions {
                          info!("   - {}", name);
                      }
@@ -126,14 +126,14 @@ pub async fn get_or_fetch_abi(
                  let best_abi = &abis[0];
                  let abi_string = serde_json::to_string_pretty(best_abi)?;
                  fs::write(&abi_path, &abi_string)?;
-                 info!("💾 Guardando ABI principal en archivo local: {}", abi_filename);
+                 info!("💾 Saving primary ABI to local file: {}", abi_filename);
              }
 
              Ok(contracts_and_abis)
         }
         Err(e) => {
-            error!("❌ Error al obtener ABI de Arbiscan: {}", e);
-            Err(format!("No se pudo obtener el ABI: {}. Asegúrate de que el contrato esté verificado.", e).into())
+            error!("❌ Failed to fetch ABI from Arbiscan: {}", e);
+            Err(format!("Could not fetch ABI: {}. Make sure the contract is verified.", e).into())
         }
     }
 }
