@@ -1,3 +1,5 @@
 {
-  "schedule": "*/30 * * * * *"
+  "contractAddress": "0xd77b2520fa076800C31Aa6884cE9BC1AFdd33B27",
+  "etherscanChainId": "11155111",
+  "schedule": "0 */5 * * * *"
 }
