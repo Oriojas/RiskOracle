@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import { analyzeRisk } from './api';
 import oscarPhoto from './assets/oscar.png';
 import jhonPhoto from './assets/jhon.jpg';
+import riskOracleLogo from './assets/logo.svg';
 
 function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData }) {
   return (
@@ -56,11 +57,18 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <header style={{ textAlign: 'center', marginBottom: '2rem', paddingTop: '2rem' }}>
-          <h1 className="cyber-title glitch-hover" style={{ fontSize: '3rem', margin: 0, cursor: 'pointer' }}>
-            Risk<span style={{ color: '#fff' }}>Oracle</span>
-          </h1>
-          <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.5rem' }}>
+        <header style={{ textAlign: 'center', marginBottom: '2rem', paddingTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img
+            src={riskOracleLogo}
+            alt="RiskOracle"
+            style={{
+              height: '64px',
+              width: 'auto',
+              filter: 'drop-shadow(0 0 4px #00BFFF) drop-shadow(0 0 10px #0088cc)',
+              cursor: 'pointer'
+            }}
+          />
+          <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.75rem', opacity: 0.8 }}>
             Arbitrum Sepolia Transaction Analyzer
           </p>
         </header>

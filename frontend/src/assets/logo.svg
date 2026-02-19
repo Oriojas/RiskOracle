@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" fill="none">
+  <defs>
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur3"/>
+      <feColorMatrix in="blur1" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0.9
+                0 0 0 0 1
+                0 0 0 0.8 0" result="neon1"/>
+      <feColorMatrix in="blur2" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0.7
+                0 0 0 0 1
+                0 0 0 0.5 0" result="neon2"/>
+      <feColorMatrix in="blur3" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0.5
+                0 0 0 0 1
+                0 0 0 0.3 0" result="neon3"/>
+      <feMerge>
+        <feMergeNode in="neon3"/>
+        <feMergeNode in="neon2"/>
+        <feMergeNode in="neon1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Eye icon group with neon filter -->
+  <g filter="url(#neon-glow)">
+    <!-- Outer eye shape -->
+    <path d="M8 40 C20 15, 60 10, 78 40 C60 65, 20 65, 8 40Z"
+          fill="#00BFFF" opacity="0.9"/>
+    <!-- Inner dark area of eye -->
+    <path d="M22 40 C30 22, 58 22, 66 40 C58 56, 30 56, 22 40Z"
+          fill="#003355" opacity="0.85"/>
+    <!-- Iris -->
+    <circle cx="44" cy="40" r="12" fill="#00BFFF" opacity="0.95"/>
+    <!-- Pupil -->
+    <circle cx="44" cy="40" r="6" fill="#001a33"/>
+    <!-- Highlight -->
+    <circle cx="48" cy="36" r="2.5" fill="white" opacity="0.8"/>
+    <!-- Upper lid line -->
+    <path d="M12 35 C25 18, 62 16, 74 36"
+          stroke="#00E5FF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Bottom geometric shape (shield-like) -->
+    <path d="M22 50 L44 68 L66 50"
+          stroke="#00BFFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Text: Risk (white, no filter) -->
+  <text x="95" y="52"
+        font-family="'Inter', 'Segoe UI', monospace"
+        font-weight="700"
+        font-size="30"
+        fill="white"
+        letter-spacing="1">Risk</text>
+
+  <!-- Text: Oracle (bright cyan, no filter) -->
+  <text x="162" y="52"
+        font-family="'Inter', 'Segoe UI', monospace"
+        font-weight="700"
+        font-size="30"
+        fill="#00E5FF"
+        letter-spacing="1">Oracle</text>
+</svg>
