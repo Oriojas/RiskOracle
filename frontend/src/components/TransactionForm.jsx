@@ -44,7 +44,7 @@ export default function TransactionForm({ onSubmit, loading }) {
     return (
         <form onSubmit={handleSubmit} className="cyber-panel" style={{ marginTop: '2rem' }}>
             <h2 className="cyber-text" style={{ color: 'var(--neon-cyan)', marginBottom: '1.5rem' }}>
-                &gt; Iniciar Escaneo
+                &gt; Start Scan
             </h2>
 
             <div style={{ marginBottom: '1rem' }}>
@@ -77,7 +77,12 @@ export default function TransactionForm({ onSubmit, loading }) {
             </div>
 
             <button type="submit" className="cyber-button glitch-hover" disabled={loading} style={{ width: '100%' }}>
-                {loading ? 'ANALYZING BYTES...' : 'EJECUTAR ANÁLISIS'}
+                {loading ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span className="cyber-spinner"></span>
+                        <span>ANALYZING NETWORK...</span>
+                    </div>
+                ) : 'RUN ANALYSIS'}
             </button>
 
             {loading && (
