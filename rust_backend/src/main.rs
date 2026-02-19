@@ -2,7 +2,7 @@ use actix_web::{web, App, HttpServer};
 use actix_cors::Cors;
 use log::info;
 
-use rust_backend::handlers::{analysis_handler, decode_handler};
+use rust_backend::handlers::{analysis_handler, chainlink_audit_handler, decode_handler};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -11,7 +11,7 @@ async fn main() -> std::io::Result<()> {
 
     let server_address = "127.0.0.1:8080";
 
-    info!("🚀 Servidor web iniciando en http://{}", server_address);
+    info!("🚀 Server starting on http://{}", server_address);
 
     HttpServer::new(|| {
         let cors = Cors::permissive();
@@ -20,6 +20,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .route("/decode", web::post().to(decode_handler))
             .route("/analysis", web::post().to(analysis_handler))
+            .route("/chainlink-audit", web::post().to(chainlink_audit_handler))
     })
     .bind(server_address)?
     .run()
