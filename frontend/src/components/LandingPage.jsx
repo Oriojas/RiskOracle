@@ -5,7 +5,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
     return (
         <div className="landing-container">
             <header className="landing-header">
-                <Link to="/" className="back-link">← Back to Analyzer</Link>
+                <Link to="/" className="back-link" style={{ display: 'inline-block', padding: '0.8rem 1.5rem', background: 'rgba(46,123,255,0.15)', border: '1px solid var(--brand-blue)', borderRadius: '8px', color: '#fff', fontWeight: 'bold', marginBottom: '2rem' }}>← Back to Analyzer</Link>
                 <h1 className="cyber-title">THE <span style={{ color: '#fff' }}>ORACLE'S</span> VISION</h1>
                 <p className="cyber-text accent">Securing the future of Web3, one transaction at a time.</p>
             </header>
@@ -117,14 +117,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                         <h3>Decentralized Verification</h3>
                         <p>Leveraging Chainlink Runtime Environment to provide a verifiable security layer that doesn't rely on centralized servers.</p>
                     </div>
-                    <div className="feature-card">
-                        <div className="feature-header">
-                            <span className="feature-icon">📊</span>
-                            <span className="tech-tag">LIVENESS</span>
-                        </div>
-                        <h3>Real-time Monitoring</h3>
-                        <p>Continuous scanning of protocol health and suspicious contract deployments across the Arbitrum network.</p>
-                    </div>
+
                 </div>
             </section>
 
@@ -160,18 +153,18 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
             </section>
 
             <section className="landing-section team">
-                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem' }}>DEVELOPED BY <span style={{ color: '#fff' }}>VIBECODERS</span></h1>
+                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem', fontSize: '1.8rem', color: 'var(--text-muted)' }}>TEAM & <span style={{ color: 'var(--brand-blue)' }}>VIBECODERS</span></h1>
                 <div className="team-grid">
                     <div className="team-card">
                         <div className="member-photo oscar" style={{ backgroundImage: `url(${oscarPhoto})` }}></div>
                         <h3>Oscar</h3>
-                        <p className="role">Backend & IA</p>
+                        <p className="role" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 600 }}>Backend & IA</p>
                         <span className="vibe-tag">VIBECODER</span>
                     </div>
                     <div className="team-card">
                         <div className="member-photo jhon" style={{ backgroundImage: `url(${jhonPhoto})` }}></div>
                         <h3>Jhon</h3>
-                        <p className="role">Front UX</p>
+                        <p className="role" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 600 }}>Front UX</p>
                         <span className="vibe-tag">VIBECODER</span>
                     </div>
                     <div className="team-card antigravity">
@@ -192,7 +185,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                             </svg>
                         </div>
                         <h3>Antigravity</h3>
-                        <p className="role">AI Core Assistant</p>
+                        <p className="role" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 600 }}>AI Core Assistant</p>
                         <span className="vibe-tag">INTELLIGENCE</span>
                     </div>
                 </div>
