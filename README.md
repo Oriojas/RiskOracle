@@ -25,6 +25,24 @@ In the rapidly evolving world of decentralized finance, uncertainty is the enemy
 
 ---
 
+## 🏆 Hackathon Prizes We Are Targeting
+
+We built RiskOracle pushing beyond the standard stack to deliver a production-grade Web3 firewall. We are competing for:
+
+### 1. Risk & Compliance
+RiskOracle directly attacks the massive $3.1B+ loss problem in DeFi by functioning as an intelligent, pre-execution defense layer. Instead of auditing after the hack, we offer real-time compliance and risk analysis of the semantic intent *before* any signature is executed, making it a critical primitive for Web3 mass adoption.
+
+### 2. CRE & AI
+We took **Chainlink's CRE** (native to TS/Go) and pushed its limits by seamlessly orchestrating it within a blisteringly fast **Rust backend**. This bridge powers a decentralized verification pipeline where the advanced cognitive capabilities of **DeepSeek V3 (AI)** analyze the raw bytecode logic, and multiple oracles use this data via the Runtime Environment to form a decentralized consensus on the risk level.
+
+### 3. Top 10 Projects
+RiskOracle is a polished, end-to-end solution: 
+- Highly aesthetic, cyberpunk UI that transforms terrifying hex data into human-readable alerts.
+- A robust Rust microservice backend engineered for sub-millisecond data extraction.
+- A functional, interactive **Phishing Demo dApp (`test_front_contract`)** allowing judges to experience the attack and defense flow live!
+
+---
+
 ## � Unmatched Benefits
 
 ### 🛡️ 1. Prevent Catastrophic Losses (AI-Powered)
@@ -43,6 +61,34 @@ Why trust a single centralized API? After the initial scan, users can request a 
 ### ⚡ 3. Frictionless, Lightning-Fast UX
 - **Built for Speed**: The core decoder is written purely in **Rust** (memory-safe, zero garbage collection) for sub-millisecond responsiveness.
 - **Cyber-Premium Interface**: A modern, glassmorphism-based React frontend that transforms terrifying hex data into human-readable logic.
+
+---
+
+## 🌊 Application Flow
+
+```mermaid
+sequenceDiagram
+    participant User as 🧑‍💻 User
+    participant UI as 🖥️ RiskOracle UI
+    participant Rust as 🦀 Rust Backend
+    participant AI as 🧠 DeepSeek AI
+    participant CRE as 🔗 Chainlink CRE
+
+    User->>UI: Enters Contract Address & Calldata
+    UI->>Rust: API Request (Decode & Analyze)
+    Rust->>AI: Sends decompiled bytecode for semantic analysis
+    AI-->>Rust: Returns vulnerability report & intent
+    Rust-->>UI: Displays Initial Risk Score (Red/Yellow/Green)
+    
+    rect rgb(30, 30, 50)
+        Note over User,CRE: Optional: Decentralized Verification
+        User->>UI: Requests "Verify with Chainlink DON"
+        UI->>Rust: Triggers Verification Sequence
+        Rust->>CRE: Injects params & spawns local DON simulation
+        CRE-->>Rust: BFT Consensus Reached. Returns Hash
+        Rust-->>UI: Displays Cryptographic Trust Report
+    end
+```
 
 ---
 
@@ -109,6 +155,15 @@ cd frontend
 npm install
 npm run dev
 # The cyber-ui goes live at http://localhost:5173
+```
+
+### 4. Launch the Phishing Demo (Test dApp)
+We included a realistic 'Malicious Airdrop' dApp to test the Oracle in real time.
+```bash
+cd test_front_contract
+npm install
+npm run dev
+# The demo phishing site goes live at http://localhost:5174
 ```
 
 ---
