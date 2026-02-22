@@ -323,7 +323,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                     RiskOracle is designed to scale from individual users to global financial institutions,
                     creating a sustainable ecosystem of security.
                 </p>
-                <div className="monetization-grid">
+                <div className="monetization-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
                     <div className="monetization-card">
                         <div className="monetization-icon">💳</div>
                         <h3>Freemium Security</h3>
@@ -349,6 +349,51 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                         <ul className="monetization-features">
                             <li>Verifiable CRE Reports</li>
                             <li>Multisig Security Layer</li>
+                        </ul>
+                    </div>
+                    <div className="monetization-card">
+                        <div className="monetization-icon">📊</div>
+                        <h3>Risk Scoring-as-a-Service</h3>
+                        <p>Expose transaction, wallet, and contract risk scores as a consumable service for DeFi protocols like Lending and Market Makers.</p>
+                        <ul className="monetization-features">
+                            <li>Per-query fee model</li>
+                            <li>BFT-backed consensus scores</li>
+                        </ul>
+                    </div>
+                    <div className="monetization-card">
+                        <div className="monetization-icon">📦</div>
+                        <h3>SDK for dApps (Lite)</h3>
+                        <p>Lightweight SDK to allow dApps, Launchpads, and Bridges to check transaction risk before execution for their users.</p>
+                        <ul className="monetization-features">
+                            <li>Integration fee model</li>
+                            <li>Native UI components included</li>
+                        </ul>
+                    </div>
+                    <div className="monetization-card">
+                        <div className="monetization-icon">📡</div>
+                        <h3>Risk Feed API</h3>
+                        <p>Offer real-time risk data through an API for contracts, wallets, and transactions targeted at defensive bots and DAOs.</p>
+                        <ul className="monetization-features">
+                            <li>Tiered API plans</li>
+                            <li>High-throughput data stream</li>
+                        </ul>
+                    </div>
+                    <div className="monetization-card">
+                        <div className="monetization-icon">🏅</div>
+                        <h3>Security Certification</h3>
+                        <p>Provide monitoring and risk assessment certification for new DeFi projects and Treasury Managers.</p>
+                        <ul className="monetization-features">
+                            <li>"Monitored by RiskOracle" badge</li>
+                            <li>Monthly monitoring subscription</li>
+                        </ul>
+                    </div>
+                    <div className="monetization-card">
+                        <div className="monetization-icon">🗳️</div>
+                        <h3>DAO Proposal Reports</h3>
+                        <p>Analyze smart contracts and upgrades proposed in DAO governance processes to protect voters and funds.</p>
+                        <ul className="monetization-features">
+                            <li>Per-proposal analysis fee</li>
+                            <li>Governance safety dashboard</li>
                         </ul>
                     </div>
                 </div>

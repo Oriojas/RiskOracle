@@ -1,0 +1,12 @@
+* [33m977f7be[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/frontend-ux-improvements[m[33m, [m[1;31morigin/feature/frontend-ux-improvements[m[33m)[m Enhance Market section: Quote Stepper, Orbital Timeline (Lazy Loaded), and layout fixes
+*   [33mcaedef0[m[33m ([m[1;32mmaster[m[33m)[m Merge pull request #1 from Oriojas/feature/landing-page-enhancements
+[32m|[m[33m\[m  
+[32m|[m * [33mc9d0b58[m[33m ([m[1;31morigin/feature/landing-page-enhancements[m[33m, [m[1;32mfeature/landing-page-enhancements[m[33m)[m feat: finalized landing page with features, roadmap (CRE MVP) and business logic
+[32m|[m * [33me2bb883[m feat: enhance landing page with builders and business logic sections
+* [33m|[m [33me2c5461[m fix/ delete test image
+[33m|[m[33m/[m  
+* [33mb0076e7[m feat/ create frontend
+* [33m9867698[m fix/ decode ABI
+* [33m06e15d5[m fix/ solidity funtion depre
+* [33m36b2f0c[m feat/ update .gitignore
+* [33m17f0777[m chore: remove rust_backend/ABI folder from tracking
