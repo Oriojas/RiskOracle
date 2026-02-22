@@ -189,6 +189,9 @@ const MaliciousApp = () => {
                 >
                   {isWritePending ? "OPENING WALLET..." : "2. CLAIM PRIZE NOW 🎁"}
                 </motion.button>
+
+
+
               </motion.div>
             )}
 
