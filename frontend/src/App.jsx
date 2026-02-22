@@ -11,15 +11,28 @@ import jhonPhoto from './assets/jhon.jpg';
 function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData }) {
   return (
     <>
+      <header style={{ textAlign: 'center', marginBottom: '3rem', paddingTop: '2rem' }}>
+        <h1 className="cyber-title" style={{ fontSize: '3rem', margin: 0 }}>
+          Risk<span style={{ color: '#fff' }}>Oracle</span>
+        </h1>
+        <p className="cyber-text" style={{ color: 'var(--brand-electric)', marginTop: '0.5rem' }}>
+          Arbitrum Sepolia Transaction Analyzer
+        </p>
+        <Link to="/about" className="know-more-btn">Want to Know more?</Link>
+      </header>
+
       <main>
         <TransactionForm onSubmit={handleAnalyze} loading={loading} />
         {analysisData && <RiskAnalysis data={analysisData} />}
-        {analysisData && analysisData.status === 'success' && (
+        {analysisData && analysisData.status === 'success' ? (
           <ChainlinkVerification
             contractAddress={lastAddress}
             callData={lastCallData}
             initialRiskLevel={analysisData.risk_level}
+            disabled={false}
           />
+        ) : (
+          <ChainlinkVerification disabled={true} />
         )}
       </main>
 
@@ -55,16 +68,6 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <header style={{ textAlign: 'center', marginBottom: '3rem', paddingTop: '2rem' }}>
-          <h1 className="cyber-title" style={{ fontSize: '3rem', margin: 0 }}>
-            Risk<span style={{ color: '#fff' }}>Oracle</span>
-          </h1>
-          <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.5rem' }}>
-            Arbitrum Sepolia Transaction Analyzer
-          </p>
-          <Link to="/about" className="know-more-btn">Want to Know more?</Link>
-        </header>
-
         <Routes>
           <Route path="/" element={
             <MainAnalyzer
