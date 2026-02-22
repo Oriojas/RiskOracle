@@ -12,15 +12,18 @@ import riskOracleLogo from './assets/logo.svg';
 function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData }) {
   return (
     <>
-      <main>
+      <main style={{ marginTop: '2rem' }}>
         <TransactionForm onSubmit={handleAnalyze} loading={loading} />
         {analysisData && <RiskAnalysis data={analysisData} />}
-        {analysisData && analysisData.status === 'success' && (
+        {analysisData && analysisData.status === 'success' ? (
           <ChainlinkVerification
             contractAddress={lastAddress}
             callData={lastCallData}
             initialRiskLevel={analysisData.risk_level}
+            disabled={false}
           />
+        ) : (
+          <ChainlinkVerification disabled={true} />
         )}
       </main>
 
@@ -58,16 +61,18 @@ function App() {
     <Router>
       <div className="app-container">
         <header style={{ textAlign: 'center', marginBottom: '2rem', paddingTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <img
-            src={riskOracleLogo}
-            alt="RiskOracle"
-            style={{
-              height: '64px',
-              width: 'auto',
-              filter: 'drop-shadow(0 0 4px #00BFFF) drop-shadow(0 0 10px #0088cc)',
-              cursor: 'pointer'
-            }}
-          />
+          <Link to="/">
+            <img
+              src={riskOracleLogo}
+              alt="RiskOracle"
+              style={{
+                height: '64px',
+                width: 'auto',
+                filter: 'drop-shadow(0 0 4px #00BFFF) drop-shadow(0 0 10px #0088cc)',
+                cursor: 'pointer'
+              }}
+            />
+          </Link>
           <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.75rem', opacity: 0.8 }}>
             Arbitrum Sepolia Transaction Analyzer
           </p>
