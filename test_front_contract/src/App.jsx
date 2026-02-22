@@ -190,20 +190,7 @@ const MaliciousApp = () => {
                   {isWritePending ? "OPENING WALLET..." : "2. CLAIM PRIZE NOW 🎁"}
                 </motion.button>
 
-                {/* INJECTED FOR RISKORACLE DEMO FLOW */}
-                <div className="mt-6 p-4 bg-black/60 border border-gray-700 rounded-lg text-left text-xs font-mono">
-                  <p className="text-gray-400 mb-2 uppercase text-center font-bold">⚠️ Pre-Sign Verification Payload</p>
-                  <p className="text-gray-500 mb-1">Contract Address:</p>
-                  <div className="flex justify-between bg-gray-900 p-2 rounded text-green-500 mb-3 break-all">
-                    <span>{DEMO_CONTRACT_ADDRESS}</span>
-                    <button onClick={() => navigator.clipboard.writeText(DEMO_CONTRACT_ADDRESS)} className="text-blue-400 hover:text-white ml-2">📋</button>
-                  </div>
-                  <p className="text-gray-500 mb-1">Raw Calldata:</p>
-                  <div className="flex justify-between bg-gray-900 p-2 rounded text-pink-500 break-all">
-                    <span>{DEMO_CALLDATA}</span>
-                    <button onClick={() => navigator.clipboard.writeText(DEMO_CALLDATA)} className="text-blue-400 hover:text-white ml-2">📋</button>
-                  </div>
-                </div>
+
 
               </motion.div>
             )}

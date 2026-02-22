@@ -28,7 +28,6 @@ function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastC
       </main>
 
       <footer style={{ marginTop: '4rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
-        <Link to="/about" className="know-more-btn">WANT TO KNOW MORE ABOUT THE PROJECT?</Link>
         <p className="cyber-text" style={{ opacity: 0.5, fontSize: '0.8rem' }}>SECURE // DECENTRALIZE // VERIFY</p>
       </footer>
     </>
@@ -76,6 +75,7 @@ function App() {
           <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.75rem', opacity: 0.8 }}>
             Arbitrum Sepolia Transaction Analyzer
           </p>
+          <Link to="/about" className="know-more-btn" style={{ marginTop: '1.5rem' }}>WANT TO KNOW MORE ABOUT THE PROJECT?</Link>
         </header>
 
         <main className="page-fade-enter-active">

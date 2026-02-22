@@ -676,6 +676,7 @@ body::after {
 
 body {
   margin: 0;
+  box-sizing: border-box;
   background-color: var(--brand-deep-blue);
   color: var(--text-main);
   font-family: var(--font-display);
@@ -689,6 +690,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 #root {
   max-width: 1200px;
   margin: 0 auto;
@@ -697,12 +704,11 @@ body {
 
 /* Utilities */
 .cyber-title {
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 800;
   font-size: 2.5rem;
-  text-transform: none;
-  /* Removed uppercase */
-  letter-spacing: -1px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   background: linear-gradient(135deg, #ffffff 0%, var(--brand-blue) 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -1163,6 +1169,10 @@ body {
 }
 
 .landing-section h2 {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   font-size: 2rem;
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #ffffff 0%, var(--brand-blue) 100%);
@@ -2319,6 +2329,7 @@ body {
 }
 
 .glitch-text {
+  font-family: var(--font-mono);
   font-size: 5.5rem;
   font-weight: 900;
   color: #fff;
@@ -2335,12 +2346,14 @@ body {
 }
 
 .hud-title {
+  font-family: var(--font-mono);
   font-size: 3rem;
   font-weight: 900;
   color: #fff;
   line-height: 1.1;
   margin-bottom: 0.5rem;
-  letter-spacing: -1px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .hud-title span {
@@ -2504,10 +2517,11 @@ body {
 }
 
 .hud-amount {
+  font-family: var(--font-mono);
   color: #fff;
   font-size: 1.8rem;
   font-weight: 900;
-  letter-spacing: -1px;
+  letter-spacing: 1px;
   margin: 0.2rem 0;
 }
 

@@ -80,11 +80,10 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
             <section className="landing-section purpose">
                 <div className="cyber-panel">
                     <h2>Our Purpose</h2>
-                    <p>
-                        In the rapidly evolving world of decentralized finance, uncertainty is the enemy.
-                        RiskOracle is a pre-execution verification tool. Users can copy any suspicious contract address and calldata *before* signing, allowing our AI to decode the semantic intent and prevent catastrophic losses.
+                    <p style={{ fontSize: '1.15rem', lineHeight: '1.7', opacity: 0.9, maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+                        Blind execution is the enemy of DeFi. <strong>RiskOracle</strong> acts as your intelligent pre-execution defense layer. By combining sub-millisecond Rust decoding, DeepSeek's semantic AI, and Chainlink CRE, we reveal the true intent of any transaction <strong>before</strong> you sign.
                     </p>
-                    <div className="purpose-grid">
+                    <div className="purpose-grid" style={{ marginTop: '3rem' }}>
                         <div className="purpose-item">
                             <span className="icon">🛡️</span>
                             <h3>Pre-Sign Defense</h3>
@@ -166,6 +165,24 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                                 <div className="attack-vector-track"><div className="attack-vector-fill" style={{ width: '8%' }}></div></div>
                             </div>
                         </div>
+
+                        {/* Verified Intelligence Sources */}
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', marginTop: 'auto' }}>
+                            <h4 className="hud-label" style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', opacity: 0.8 }}>
+                                <span>🔗</span> VERIFIED INTELLIGENCE SOURCES
+                            </h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.4 }}>
+                                    <a href="https://chainalysis.com/reports" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--neon-cyan)', fontWeight: 'bold', textDecoration: 'none', cursor: 'pointer', borderBottom: '1px dashed var(--neon-cyan)' }}>[1] CHAINALYSIS:</a> Crypto Crime Report 2024. Illicit flows, ransomware & money laundering data.
+                                </div>
+                                <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.4 }}>
+                                    <a href="https://immunefi.com/resources" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand-blue)', fontWeight: 'bold', textDecoration: 'none', cursor: 'pointer', borderBottom: '1px dashed var(--brand-blue)' }}>[2] IMMUNEFI:</a> Crypto Losses in Q2 2024 Report. DeFi ecosystem smart contract exploits.
+                                </div>
+                                <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.4 }}>
+                                    <a href="https://certik.com/resources" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand-purple)', fontWeight: 'bold', textDecoration: 'none', cursor: 'pointer', borderBottom: '1px dashed var(--brand-purple)' }}>[3] CERTIK:</a> Hack3d Security Report. &gt;$2.36B lost. AI-phishing ($1B+) & credential theft.
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Right Column: Timeline & Trend */}
@@ -239,30 +256,6 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                 </div>
             </section>
 
-            <section className="landing-section solution highlight">
-                <div className="cyber-panel solution-panel">
-                    <h2>The Solution: RiskOracle</h2>
-                    <div className="solution-content">
-                        <div className="solution-text">
-                            <p>
-                                RiskOracle acts as an intelligent intermediary. By combining sub-millisecond
-                                Rust-based decoding with DeepSeek's advanced AI, we analyze the semantic
-                                intent of every transaction.
-                            </p>
-                            <p>
-                                <strong>Chainlink CRE Integration:</strong> Our architecture utilizes Chainlink
-                                Runtime Environment to ensure that the security analysis isn't just fast,
-                                but <strong>verifiable</strong> and <strong>decentrally executed</strong>.
-                            </p>
-                        </div>
-                        <div className="solution-graphic">
-                            <div className="hex-shield">
-                                <div className="shield-inner"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <section className="landing-section features">
                 <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem' }}>PRO <span style={{ color: '#fff' }}>FEATURES</span></h1>
