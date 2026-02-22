@@ -13,13 +13,13 @@ export default function TransactionForm({ onSubmit, loading }) {
 
     return (
         <form onSubmit={handleSubmit} className="cyber-panel" style={{ marginTop: '2rem' }}>
-            <h2 className="cyber-text" style={{ color: 'var(--neon-cyan)', marginBottom: '1.5rem' }}>
-                &gt; Start Scan
+            <h2 className="cyber-text" style={{ color: '#fff', marginBottom: '1.5rem', fontWeight: 700 }}>
+                Transaction Analysis
             </h2>
 
             <div style={{ marginBottom: '1rem' }}>
-                <label className="cyber-text" style={{ fontSize: '0.8rem', display: 'block', marginBottom: '0.5rem' }}>
-                    Target Contract Address
+                <label className="cyber-text" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.6rem' }}>
+                    Contract Address
                 </label>
                 <input
                     type="text"
@@ -32,8 +32,8 @@ export default function TransactionForm({ onSubmit, loading }) {
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
-                <label className="cyber-text" style={{ fontSize: '0.8rem', display: 'block', marginBottom: '0.5rem' }}>
-                    Call Data Payload
+                <label className="cyber-text" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.6rem' }}>
+                    Call Data
                 </label>
                 <textarea
                     className="cyber-input"
@@ -50,9 +50,9 @@ export default function TransactionForm({ onSubmit, loading }) {
                 {loading ? (
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <span className="cyber-spinner"></span>
-                        <span>ANALYZING NETWORK...</span>
+                        <span>ANALYZING...</span>
                     </div>
-                ) : 'RUN ANALYSIS'}
+                ) : 'Analyze Risk'}
             </button>
         </form>
     );
