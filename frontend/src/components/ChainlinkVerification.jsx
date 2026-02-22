@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { requestChainlinkAudit } from '../api';
 
-export default function ChainlinkVerification({ contractAddress, callData, initialRiskLevel }) {
+export default function ChainlinkVerification({ contractAddress, callData, initialRiskLevel, disabled }) {
     const [auditData, setAuditData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -61,7 +61,9 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
             {!auditData && !loading && (
                 <button
                     className="chainlink-verify-btn"
-                    onClick={handleVerify}
+                    onClick={disabled ? undefined : handleVerify}
+                    disabled={disabled}
+                    style={{ opacity: disabled ? 0.4 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
                     id="chainlink-verify-button"
                 >
                     <span className="chainlink-btn-icon">
@@ -70,7 +72,9 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
                         </svg>
                     </span>
                     Verify with Chainlink DON
-                    <span className="chainlink-btn-subtitle">Decentralized Oracle Network Consensus</span>
+                    <span className="chainlink-btn-subtitle">
+                        {disabled ? 'Run an analysis first to enable Decentralized Verification' : 'Decentralized Oracle Network Consensus'}
+                    </span>
                 </button>
             )}
 

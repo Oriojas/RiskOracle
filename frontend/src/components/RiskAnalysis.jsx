@@ -25,40 +25,39 @@ export default function RiskAnalysis({ data }) {
                 </div>
             )}
 
-            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '4px', marginBottom: '1rem' }}>
-                <h3 className="cyber-text" style={{ fontSize: '0.9rem', color: '#888', marginBottom: '0.5rem' }}>
-          // DETECTED FUNCTION
+            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.2rem', borderRadius: '8px', marginBottom: '1rem', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <h3 className="cyber-text" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                    Detected Function
                 </h3>
-                <p style={{ color: 'var(--neon-pink)', fontFamily: 'var(--font-mono)' }}>
+                <p style={{ color: '#fff', fontFamily: 'var(--font-mono)' }}>
                     {function_name ? `${function_name}(...)` : 'Unknown'}
                 </p>
             </div>
 
             {args && args.length > 0 && (
-                <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '4px', marginBottom: '1rem' }}>
-                    <h3 className="cyber-text" style={{ fontSize: '0.9rem', color: '#888', marginBottom: '0.5rem' }}>
-            // DECODED PARAMS
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.2rem', borderRadius: '8px', marginBottom: '1rem', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <h3 className="cyber-text" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                        Decoded Params
                     </h3>
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         {args.map((arg, idx) => (
-                            <li key={idx} style={{ marginBottom: '0.5rem', wordBreak: 'break-all' }}>
-                                <span style={{ color: 'var(--neon-cyan)' }}>[{idx}]</span> {arg}
+                            <li key={idx} style={{ marginBottom: '0.5rem', wordBreak: 'break-all', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
+                                <span style={{ color: 'var(--brand-electric)' }}>[{idx}]</span> {arg}
                             </li>
                         ))}
                     </ul>
                 </div>
             )}
 
-            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '4px' }}>
-                <h3 className="cyber-text" style={{ fontSize: '0.9rem', color: '#888', marginBottom: '0.5rem' }}>
-          // SYSTEM ANALYSIS
+            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.2rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <h3 className="cyber-text" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                    System Analysis
                 </h3>
-                <div style={{ lineHeight: '1.6', color: '#ccc', fontSize: '0.95rem' }} className="markdown-content">
+                <div style={{ lineHeight: '1.6', color: 'var(--text-main)', fontSize: '0.95rem' }} className="markdown-content">
                     {explanation ? (
                         <ReactMarkdown
                             components={{
-                                strong: ({ node, ...props }) => <strong style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }} {...props} />,
-                                ul: ({ node, ...props }) => <ul style={{ paddingLeft: '1.5rem' }} {...props} />,
+                                ul: ({ node, ...props }) => <ul style={{ paddingLeft: '1.5rem', color: 'var(--text-main)' }} {...props} />,
                                 li: ({ node, ...props }) => <li style={{ marginBottom: '0.5rem' }} {...props} />
                             }}
                         >
