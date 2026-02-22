@@ -60,8 +60,21 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
         <div className="landing-container">
             <header className="landing-header">
                 <Link to="/" className="back-link" style={{ display: 'inline-block', padding: '0.8rem 1.5rem', background: 'rgba(46,123,255,0.15)', border: '1px solid var(--brand-blue)', borderRadius: '8px', color: '#fff', fontWeight: 'bold', marginBottom: '2rem' }}>← Back to Analyzer</Link>
-                <h1 className="cyber-title">THE <span style={{ color: '#fff' }}>ORACLE'S</span> VISION</h1>
-                <p className="cyber-text accent">Securing the future of Web3, one transaction at a time.</p>
+
+                <div className="hero-split">
+                    <div className="hero-text-content">
+                        <h1 className="cyber-title">THE <span style={{ color: '#fff' }}>ORACLE'S</span> VISION</h1>
+                        <p className="cyber-text accent">Securing the future of Web3 through AI-assisted Risk & Compliance verification, one transaction at a time.</p>
+                    </div>
+
+                    <div className="hero-3d-node">
+                        <div className="core-sphere"></div>
+                        <div className="orbit-ring ring-x"></div>
+                        <div className="orbit-ring ring-y"></div>
+                        <div className="orbit-ring ring-z"></div>
+                        <div className="data-particles"></div>
+                    </div>
+                </div>
             </header>
 
             <section className="landing-section purpose">
@@ -69,19 +82,18 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                     <h2>Our Purpose</h2>
                     <p>
                         In the rapidly evolving world of decentralized finance, uncertainty is the enemy.
-                        Users are often forced to sign transactions that they don't fully understand,
-                        leading to catastrophic losses from phishing, malicious contracts, and hidden drains.
+                        RiskOracle is a pre-execution verification tool. Users can copy any suspicious contract address and calldata *before* signing, allowing our AI to decode the semantic intent and prevent catastrophic losses.
                     </p>
                     <div className="purpose-grid">
                         <div className="purpose-item">
                             <span className="icon">🛡️</span>
-                            <h3>Prevent</h3>
-                            <p>Identify risks before you sign.</p>
+                            <h3>Pre-Sign Defense</h3>
+                            <p>Identify risks manually before you ever click 'Approve'.</p>
                         </div>
                         <div className="purpose-item">
-                            <span className="icon">🔍</span>
-                            <h3>Clarify</h3>
-                            <p>Decode complex hex data into human logic.</p>
+                            <span className="icon">🧠</span>
+                            <h3>AI Agent Abstraction</h3>
+                            <p>DeepSeek AI translates complex hex into human-readable logic.</p>
                         </div>
                         <div className="purpose-item">
                             <span className="icon">⛓️</span>
@@ -93,101 +105,136 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
             </section>
 
             <section className="landing-section market-shock">
-                <div className="cyber-panel">
-                    <h2 className="cyber-text" style={{ textAlign: 'center', color: 'var(--neon-red)' }}>
-                        &gt; GLOBAL ALERT: 2025 SECURITY CRISIS
-                    </h2>
-                    <div className="shock-number" style={{ textAlign: 'center' }}>$3,100,000,000</div>
-                    <p className="cyber-text" style={{ textAlign: 'center', opacity: 0.7, marginBottom: '4rem', fontSize: '0.9rem' }}>
-                        VALUE STOLEN IN H1 2025 ALONE (EXCEEDING ALL 2024)
-                    </p>
+                <div className="hacker-hud">
 
-                    <div className="market-chart-container">
-                        <div className="chart-box">
-                            <h3 className="cyber-text" style={{ fontSize: '0.9rem', marginBottom: '2.5rem' }}>// 2025 ATTACK VECTORS (H1)</h3>
-                            <svg width="200" height="200" viewBox="0 0 100 100" className="chart-svg" style={{ transform: 'rotate(-90deg)' }}>
-                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="10" />
-                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
-                                    strokeDasharray="148.2 251.2" className="path-animate segment-exploits" />
-                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
-                                    strokeDasharray="50.2 251.2" className="path-animate segment-phishing" />
-                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
-                                    strokeDasharray="20.1 251.2" className="path-animate segment-logic" />
-                                <circle cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
-                                    strokeDasharray="32.7 251.2" className="path-animate segment-ai" />
-                            </svg>
-                            <div className="chart-legend" style={{ marginTop: '2.5rem', fontSize: '0.8rem', textAlign: 'left', display: 'inline-block' }}>
-                                <p><span style={{ color: 'var(--neon-cyan)' }}>●</span> EXPLOITS: 59%</p>
-                                <p><span style={{ color: 'var(--neon-red)' }}>●</span> PHISHING: 20%</p>
-                                <p><span style={{ color: 'var(--neon-purple)' }}>●</span> CONTRACT HACKS: 8%</p>
-                                <p><span style={{ color: 'var(--neon-pink)' }}>●</span> OTHERS: 13%</p>
+                    {/* Left Column: Global Alerts & Metrics */}
+                    <div className="hud-panel alert flex-col">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--neon-cyan)' }}>
+                            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+                            <span className="hud-label" style={{ color: 'var(--neon-cyan)' }}>Security Crisis Detected</span>
+                        </div>
+
+                        <h2 className="hud-title">GLOBAL ALERT:<br /><span>2025 CRISIS</span></h2>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '1rem' }}>
+                            <span className="hud-label" style={{ marginBottom: '0.5rem' }}>Total Value Stolen H1 2025</span>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem' }}>
+                                <h3 className="glitch-text">$3.1B</h3>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--neon-cyan)' }}>
+                                    <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>+1,025%</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="chart-box">
-                            <h3 className="cyber-text" style={{ fontSize: '0.9rem', marginBottom: '3rem' }}>// AI-DRIVEN SCAM SURGE</h3>
-                            <div style={{ marginBottom: '2rem' }}>
-                                <div className="shock-number" style={{ fontSize: '3rem', color: 'var(--neon-pink)' }}>+1,025%</div>
-                                <p className="cyber-text" style={{ fontSize: '0.7rem', opacity: 0.6 }}>INCREASE IN AI-AIDED SCAMS SINCE 2023</p>
+                        {/* Progress Section */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginBottom: '2rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                                <span className="hud-label">H1 2025 vs. Full Year 2024</span>
+                                <span className="hud-label" style={{ color: 'var(--neon-cyan)' }}>85% CAP_EXCEEDED</span>
                             </div>
-                            <svg width="220" height="100" viewBox="0 0 200 100" className="chart-svg">
-                                <polyline fill="none" stroke="var(--neon-pink)" strokeWidth="3"
-                                    points="0,95 30,90 60,80 90,60 120,50 150,20 200,5" className="path-animate" />
-                                {[0, 30, 60, 90, 120, 150, 200].map((x, i) => (
-                                    <circle key={i} cx={x} cy={[95, 90, 80, 60, 50, 20, 5][i]} r="3" fill="var(--neon-pink)" />
-                                ))}
-                            </svg>
+                            <div className="hud-progress">
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar"></div>
+                                <div className="hud-progress-bar pulse"></div>
+                                <div className="hud-progress-bar dim"></div>
+                            </div>
+                            <p style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-mono)' }}>CRITICAL: H1 ALREADY EXCEEDING TOTAL 2024 AGGREGATE LOSSES. PROJECTED YEAR-END LOSS: $7.2B.</p>
+                        </div>
+
+                        {/* Attack Vector Breakdown */}
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <h4 className="hud-label" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                📊 Attack Vector Breakdown (H1)
+                            </h4>
+
+                            <div className="attack-vector">
+                                <div className="attack-vector-header"><span>Governance & Logic Exploits</span><span style={{ color: '#fff' }}>59%</span></div>
+                                <div className="attack-vector-track"><div className="attack-vector-fill" style={{ width: '59%' }}></div></div>
+                            </div>
+                            <div className="attack-vector">
+                                <div className="attack-vector-header"><span>AI-Enhanced Phishing</span><span style={{ color: '#fff' }}>20%</span></div>
+                                <div className="attack-vector-track"><div className="attack-vector-fill" style={{ width: '20%' }}></div></div>
+                            </div>
+                            <div className="attack-vector">
+                                <div className="attack-vector-header"><span>Smart Contract Vulnerabilities</span><span style={{ color: '#fff' }}>8%</span></div>
+                                <div className="attack-vector-track"><div className="attack-vector-fill" style={{ width: '8%' }}></div></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="quote-stepper-container">
-                        <div className="cyber-quote slide-active">
-                            "{quotes[quoteIndex].text}"
-                            <cite>— {quotes[quoteIndex].author}</cite>
-                        </div>
-                        <div className="stepper-controls">
-                            <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev > 0 ? prev - 1 : quotes.length - 1))}>{"<"}</button>
-                            <div className="stepper-dots">
-                                {quotes.map((_, i) => (
-                                    <span key={i} className={`dot ${i === quoteIndex ? 'active' : ''}`} onClick={() => setQuoteIndex(i)}></span>
-                                ))}
+                    {/* Right Column: Timeline & Trend */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+
+                        {/* Timeline Panel */}
+                        <div className="hud-panel" style={{ flexGrow: 1 }}>
+                            <h4 className="hud-label" style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                ⏱️ Crisis Evolution Timeline
+                            </h4>
+
+                            <div className="hud-timeline">
+                                <div className="hud-timeline-item">
+                                    <span className="hud-year">2020</span>
+                                    <span className="hud-amount">$150M</span>
+                                    <span className="hud-desc">Flash Loan Emergence</span>
+                                </div>
+                                <div className="hud-timeline-item">
+                                    <span className="hud-year">2022</span>
+                                    <span className="hud-amount">$800M+</span>
+                                    <span className="hud-desc">Cross-Chain Bridge Vulnerabilities</span>
+                                </div>
+                                <div className="hud-timeline-item">
+                                    <span className="hud-year">2024</span>
+                                    <span className="hud-amount">$1.2B</span>
+                                    <span className="hud-desc">Private Key Leak Explosion</span>
+                                </div>
+                                <div className="hud-timeline-item critical">
+                                    <span className="hud-label" style={{ color: 'var(--neon-cyan)' }}>CRITICAL_2025</span>
+                                    <span className="hud-amount">$3.1B (H1 ONLY)</span>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+                                        <span style={{ fontSize: '1rem' }}>🤖</span>
+                                        <span className="hud-desc" style={{ color: 'var(--neon-cyan)', fontWeight: 'bold' }}>AI DOMINANCE ERA</span>
+                                    </div>
+                                </div>
                             </div>
-                            <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev + 1) % quotes.length)}>{">"}</button>
                         </div>
-                    </div>
 
-                    <div className="orbital-timeline-container" ref={timelineRef}>
-                        <h3 className="cyber-text" style={{ color: 'var(--brand-blue)', marginBottom: '3rem', textAlign: 'center' }}>// CRISIS EVOLUTION</h3>
-                        <div className={`orbital-view ${timelineVisible ? 'animate-in' : ''}`}>
-                            <svg width="800" height="600" viewBox="0 0 800 600" className="orbital-svg">
-                                <path d="M 750 20 Q 200 300 750 580" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="3" className="orbital-path-bg" />
-                                {timelineVisible && (
-                                    <path d="M 750 20 Q 200 300 750 580" fill="transparent" stroke="var(--brand-blue)" strokeWidth="3" className="orbital-path-draw" />
-                                )}
-
-                                {timelineEvents.map((event, i) => {
-                                    const orbitalCoords = [
-                                        { x: 680, y: 100 },
-                                        { x: 480, y: 250 },
-                                        { x: 480, y: 400 },
-                                        { x: 680, y: 550 }
-                                    ][i];
-
-                                    return (
-                                        <g key={i} className="timeline-node" style={{ transitionDelay: `${0.5 + i * 0.7}s` }}>
-                                            <circle cx={orbitalCoords.x} cy={orbitalCoords.y} r="8" fill={event.highlight ? 'var(--neon-red)' : 'var(--brand-blue)'} className="node-point" />
-                                            <foreignObject x={orbitalCoords.x - 330} y={orbitalCoords.y - 45} width="310" height="120">
-                                                <div className="event-detail-card">
-                                                    <span className="event-year">{event.year}</span>
-                                                    <h4 className="event-title">{event.title}</h4>
-                                                    <p className="event-desc">{event.desc}</p>
-                                                </div>
-                                            </foreignObject>
-                                        </g>
-                                    );
-                                })}
+                        {/* Callout Trend */}
+                        <div className="hud-panel">
+                            <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
+                                <h5 style={{ fontSize: '2.5rem', fontWeight: '900', color: '#fff', lineHeight: 1 }}>
+                                    +1,025%<br />
+                                    <span className="hud-label" style={{ color: 'var(--neon-cyan)' }}>AI-Driven Scam Surge</span>
+                                </h5>
+                                <button style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', color: 'var(--neon-cyan)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', cursor: 'pointer' }}>
+                                    View Full Analysis →
+                                </button>
+                            </div>
+                            <svg className="surge-chart" viewBox="0 0 100 40">
+                                <path d="M0 40 L10 35 L20 38 L30 25 L40 28 L50 15 L60 18 L70 5 L80 10 L90 2 L100 0" fill="none" stroke="var(--neon-cyan)" strokeLinecap="round" strokeWidth="3" style={{ filter: 'drop-shadow(0 0 5px rgba(0,242,255,0.8))' }}></path>
                             </svg>
                         </div>
+                    </div>
+                </div>
+
+                <div className="quote-stepper-container" style={{ marginTop: '2rem' }}>
+                    <div className="cyber-quote slide-active">
+                        "{quotes[quoteIndex].text}"
+                        <cite>— {quotes[quoteIndex].author}</cite>
+                    </div>
+                    <div className="stepper-controls">
+                        <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev > 0 ? prev - 1 : quotes.length - 1))}>{"<"}</button>
+                        <div className="stepper-dots">
+                            {quotes.map((_, i) => (
+                                <span key={i} className={`dot ${i === quoteIndex ? 'active' : ''}`} onClick={() => setQuoteIndex(i)}></span>
+                            ))}
+                        </div>
+                        <button className="nav-btn" onClick={() => setQuoteIndex((prev) => (prev + 1) % quotes.length)}>{">"}</button>
                     </div>
                 </div>
             </section>
@@ -233,16 +280,16 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                             <span className="feature-icon">🧠</span>
                             <span className="tech-tag">DEEPSEEK AI</span>
                         </div>
-                        <h3>Semantic Intent Detection</h3>
-                        <p>Beyond simple hex decoding, our AI understands the "why" behind a transaction, flagging malicious logic in real-time.</p>
+                        <h3>Semantic Intent Detection (CRE & AI)</h3>
+                        <p>Beyond simple hex decoding, our AI agent abstracts the blockchain logic to understand the "why" behind a transaction.</p>
                     </div>
                     <div className="feature-card">
                         <div className="feature-header">
-                            <span className="feature-icon">🔗</span>
-                            <span className="tech-tag">CHAINLINK CRE</span>
+                            <span className="feature-icon">⛓️</span>
+                            <span className="tech-tag">RISK & COMPLIANCE</span>
                         </div>
-                        <h3>Decentralized Verification</h3>
-                        <p>Leveraging Chainlink Runtime Environment to provide a verifiable security layer that doesn't rely on centralized servers.</p>
+                        <h3>Decentralized Risk Verification</h3>
+                        <p>Leveraging Chainlink CRE to provide automated, verifiable security consensus that doesn't rely on centralized servers.</p>
                     </div>
                 </div>
             </section>
@@ -378,24 +425,7 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                             <li>High-throughput data stream</li>
                         </ul>
                     </div>
-                    <div className="monetization-card">
-                        <div className="monetization-icon">🏅</div>
-                        <h3>Security Certification</h3>
-                        <p>Provide monitoring and risk assessment certification for new DeFi projects and Treasury Managers.</p>
-                        <ul className="monetization-features">
-                            <li>"Monitored by RiskOracle" badge</li>
-                            <li>Monthly monitoring subscription</li>
-                        </ul>
-                    </div>
-                    <div className="monetization-card">
-                        <div className="monetization-icon">🗳️</div>
-                        <h3>DAO Proposal Reports</h3>
-                        <p>Analyze smart contracts and upgrades proposed in DAO governance processes to protect voters and funds.</p>
-                        <ul className="monetization-features">
-                            <li>Per-proposal analysis fee</li>
-                            <li>Governance safety dashboard</li>
-                        </ul>
-                    </div>
+
                 </div>
             </section>
 
