@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit';
+import worldcoinLogo from '../assets/safari-pinned-tab.svg';
 
 export default function TransactionForm({ onSubmit, loading }) {
     const [address, setAddress] = useState('');
@@ -82,6 +83,13 @@ export default function TransactionForm({ onSubmit, loading }) {
                 />
             </div>
 
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: 'rgba(0,0,0,0.3)', padding: '0.8rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <img src={worldcoinLogo} alt="Worldcoin" style={{ width: '20px', height: '20px', filter: 'brightness(0) invert(1)' }} />
+                <span className="cyber-text" style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                    World ID Verification is <strong style={{ color: 'var(--neon-green)' }}>required</strong> for risk analysis
+                </span>
+            </div>
+
             <IDKitWidget
                 app_id="app_313c05c45f23d36337513238c91b3d23"
                 action="risk-scan"
@@ -93,7 +101,7 @@ export default function TransactionForm({ onSubmit, loading }) {
                         type="button"
                         className="cyber-button glitch-hover"
                         disabled={loading}
-                        style={{ width: '100%', textTransform: 'uppercase' }}
+                        style={{ width: '100%', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
                         onClick={(e) => {
                             e.preventDefault();
                             if (address && callData) {
@@ -108,7 +116,12 @@ export default function TransactionForm({ onSubmit, loading }) {
                                 <span className="cyber-spinner"></span>
                                 <span>ANALYZING...</span>
                             </div>
-                        ) : 'Analyze Risk'}
+                        ) : (
+                            <>
+                                <img src={worldcoinLogo} alt="" style={{ width: '24px', height: '24px', filter: 'brightness(0) invert(1)' }} />
+                                <span>VERIFY & ANALYZE RISK</span>
+                            </>
+                        )}
                     </button>
                 )}
             </IDKitWidget>
