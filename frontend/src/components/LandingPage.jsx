@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import chainlinkLogo from '../assets/Chainlink_Logo_Blue.svg.png';
+import worldcoinLogo from '../assets/safari-pinned-tab.svg';
 
 const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
     const [quoteIndex, setQuoteIndex] = useState(0);
@@ -422,11 +424,24 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                 </div>
             </section>
 
-            <footer className="landing-footer">
+            <footer className="landing-footer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', marginTop: '4rem', paddingBottom: '3rem' }}>
                 <button className="cyber-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                     READY TO SECURE YOUR ASSETS?
                 </button>
-                <p className="cyber-text footer-note">BUILT FOR CHAINLINK CRE HACKATHON // 2026</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginTop: '1.5rem' }}>
+                    <p className="cyber-text footer-note" style={{ margin: 0, letterSpacing: '2px', opacity: 0.5, fontSize: '0.8rem' }}>BUILT FOR CONVERGENCE: A CHAINLINK HACKATHON</p>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', opacity: 0.7, marginTop: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span className="cyber-text" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>POWERED BY</span>
+                            <img src={chainlinkLogo} alt="Chainlink" style={{ height: '20px', filter: 'drop-shadow(0 0 2px var(--brand-electric))' }} />
+                        </div>
+                        <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.2)' }}></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span className="cyber-text" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>VERIFIED VIA</span>
+                            <img src={worldcoinLogo} alt="Worldcoin" style={{ height: '18px', filter: 'brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5))' }} />
+                        </div>
+                    </div>
+                </div>
             </footer>
         </div>
     );

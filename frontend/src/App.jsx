@@ -8,6 +8,8 @@ import { analyzeRisk } from './api';
 import oscarPhoto from './assets/oscar.png';
 import jhonPhoto from './assets/jhon.jpg';
 import riskOracleLogo from './assets/logo.svg';
+import chainlinkLogo from './assets/Chainlink_Logo_Blue.svg.png';
+import worldcoinLogo from './assets/safari-pinned-tab.svg';
 
 function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData, userName }) {
   return (
@@ -27,8 +29,19 @@ function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastC
         )}
       </main>
 
-      <footer style={{ marginTop: '4rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
-        <p className="cyber-text" style={{ opacity: 0.5, fontSize: '0.8rem' }}>SECURE // DECENTRALIZE // VERIFY</p>
+      <footer style={{ marginTop: '4rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+        <p className="cyber-text" style={{ opacity: 0.5, fontSize: '0.8rem', letterSpacing: '2px' }}>SECURE // DECENTRALIZE // VERIFY</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', opacity: 0.7, marginTop: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="cyber-text" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>POWERED BY</span>
+            <img src={chainlinkLogo} alt="Chainlink" style={{ height: '20px', filter: 'drop-shadow(0 0 2px var(--brand-electric))' }} />
+          </div>
+          <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.2)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="cyber-text" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>VERIFIED VIA</span>
+            <img src={worldcoinLogo} alt="Worldcoin" style={{ height: '18px', filter: 'brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5))' }} />
+          </div>
+        </div>
       </footer>
     </>
   );
@@ -39,13 +52,21 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [lastAddress, setLastAddress] = useState('');
   const [lastCallData, setLastCallData] = useState('');
-  const [userName, setUserName] = useState('Oscar'); // Mock user name from World ID for hackathon
+  const [userName, setUserName] = useState(''); // Dynamic user name from World ID
 
-  const handleAnalyze = async (address, callData) => {
+  const handleAnalyze = async (address, callData, verificationResult) => {
     setLoading(true);
     setAnalysisData(null);
     setLastAddress(address);
     setLastCallData(callData);
+
+    // Set dynamic name based on World ID nullifier hash for uniqueness
+    if (verificationResult && verificationResult.nullifier_hash) {
+      const shortHash = verificationResult.nullifier_hash.slice(-4).toUpperCase();
+      setUserName(`Human-${shortHash}`);
+    } else {
+      setUserName('Verified');
+    }
     try {
       const result = await analyzeRisk(address, callData);
       setAnalysisData(result);

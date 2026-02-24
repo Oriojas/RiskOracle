@@ -39,7 +39,7 @@ export default function TransactionForm({ onSubmit, loading }) {
     const handleVerifySuccess = (result) => {
         // ZK-Proof received. For hackathon frontend-only mode, we allow analysis.
         if (address && callData) {
-            onSubmit(address, callData);
+            onSubmit(address, callData, result);
         }
     };
 
