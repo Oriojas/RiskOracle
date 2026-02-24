@@ -1,16 +1,23 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import worldcoinLogo from '../assets/safari-pinned-tab.svg';
 
-export default function RiskAnalysis({ data }) {
+export default function RiskAnalysis({ data, userName }) {
     if (!data) return null;
 
     const { status, risk_level, explanation, function_name, arguments: args, message } = data;
     const isError = status === 'error';
 
     return (
-        <div className="cyber-panel page-fade-enter-active" style={{ marginTop: '2rem', borderColor: isError ? 'var(--neon-red)' : 'var(--neon-cyan)' }}>
-            <h2 className="cyber-text" style={{ color: isError ? 'var(--neon-red)' : 'var(--neon-green)', marginBottom: '1.5rem' }}>
-                {isError ? '! SYSTEM ERROR !' : '> ANALYSIS COMPLETE'}
+        <div className="cyber-panel page-fade-enter-active" style={{ marginTop: '2rem', borderColor: isError ? 'var(--neon-red)' : 'var(--neon-cyan)', position: 'relative' }}>
+            <h2 className="cyber-text" style={{ color: isError ? 'var(--neon-red)' : 'var(--neon-green)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>{isError ? '! SYSTEM ERROR !' : '> ANALYSIS COMPLETE'}</span>
+                {!isError && userName && (
+                    <span style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(0, 255, 0, 0.1)', padding: '0.3rem 0.8rem', border: '1px solid var(--neon-green)', borderRadius: '20px', color: 'var(--neon-green)' }}>
+                        <img src={worldcoinLogo} alt="Verified" style={{ width: '14px', height: '14px', filter: 'brightness(0) saturate(100%) invert(60%) sepia(85%) saturate(3062%) hue-rotate(85deg) brightness(118%) contrast(124%)' }} />
+                        Verified: {userName}
+                    </span>
+                )}
             </h2>
 
             {risk_level && (

@@ -9,12 +9,12 @@ import oscarPhoto from './assets/oscar.png';
 import jhonPhoto from './assets/jhon.jpg';
 import riskOracleLogo from './assets/logo.svg';
 
-function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData }) {
+function MainAnalyzer({ handleAnalyze, loading, analysisData, lastAddress, lastCallData, userName }) {
   return (
     <>
       <main style={{ marginTop: '2rem' }}>
         <TransactionForm onSubmit={handleAnalyze} loading={loading} />
-        {analysisData && <RiskAnalysis data={analysisData} />}
+        {analysisData && <RiskAnalysis data={analysisData} userName={userName} />}
         {analysisData && analysisData.status === 'success' ? (
           <ChainlinkVerification
             contractAddress={lastAddress}
@@ -39,6 +39,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [lastAddress, setLastAddress] = useState('');
   const [lastCallData, setLastCallData] = useState('');
+  const [userName, setUserName] = useState('Oscar'); // Mock user name from World ID for hackathon
 
   const handleAnalyze = async (address, callData) => {
     setLoading(true);
@@ -87,6 +88,7 @@ function App() {
                 analysisData={analysisData}
                 lastAddress={lastAddress}
                 lastCallData={lastCallData}
+                userName={userName}
               />
             } />
             <Route path="/about" element={<LandingPage oscarPhoto={oscarPhoto} jhonPhoto={jhonPhoto} />} />
