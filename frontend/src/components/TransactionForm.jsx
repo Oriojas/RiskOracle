@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit';
 
 export default function TransactionForm({ onSubmit, loading }) {
     const [address, setAddress] = useState('');
@@ -34,11 +35,16 @@ export default function TransactionForm({ onSubmit, loading }) {
 
     const currentBanner = banners[bannerIndex];
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleVerifySuccess = (result) => {
+        // ZK-Proof received. For hackathon frontend-only mode, we allow analysis.
         if (address && callData) {
             onSubmit(address, callData);
         }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Disabled direct submit since Worldcoin handles it now.
     };
 
     return (
@@ -76,14 +82,36 @@ export default function TransactionForm({ onSubmit, loading }) {
                 />
             </div>
 
-            <button type="submit" className="cyber-button glitch-hover" disabled={loading} style={{ width: '100%' }}>
-                {loading ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span className="cyber-spinner"></span>
-                        <span>ANALYZING...</span>
-                    </div>
-                ) : 'Analyze Risk'}
-            </button>
+            <IDKitWidget
+                app_id="app_313c05c45f23d36337513238c91b3d23"
+                action="risk-scan"
+                onSuccess={handleVerifySuccess}
+                verification_level={VerificationLevel.Device}
+            >
+                {({ open }) => (
+                    <button
+                        type="button"
+                        className="cyber-button glitch-hover"
+                        disabled={loading}
+                        style={{ width: '100%', textTransform: 'uppercase' }}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            if (address && callData) {
+                                open();
+                            } else {
+                                alert("Please enter both Contract Address and Call Data.");
+                            }
+                        }}
+                    >
+                        {loading ? (
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <span className="cyber-spinner"></span>
+                                <span>ANALYZING...</span>
+                            </div>
+                        ) : 'Analyze Risk'}
+                    </button>
+                )}
+            </IDKitWidget>
 
             {loading && (
                 <>

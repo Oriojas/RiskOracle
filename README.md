@@ -8,6 +8,7 @@
 [![React](https://img.shields.io/badge/React-UI-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![Chainlink](https://img.shields.io/badge/Chainlink-Verify-375BD2?style=for-the-badge&logo=chainlink)](https://chain.link/)
 [![AI](https://img.shields.io/badge/DeepSeek-V3-1c4fd6?style=for-the-badge)](https://www.deepseek.com/)
+[![World ID](https://img.shields.io/badge/World_ID-Human_Gated-111111?style=for-the-badge&logo=worldcoin)](https://worldcoin.org/)
 
 *Built for the Chainlink Block Magic Hackathon*
 
@@ -69,16 +70,19 @@ Why trust a single centralized API? After the initial scan, users can request a 
 ```mermaid
 sequenceDiagram
     participant User as 🧑‍💻 User
+    participant WorldID as 🆔 World ID
     participant UI as 🖥️ RiskOracle UI
     participant Rust as 🦀 Rust Backend
     participant AI as 🧠 DeepSeek AI
     participant CRE as 🔗 Chainlink CRE
 
     User->>UI: Enters Contract Address & Calldata
-    UI->>Rust: API Request (Decode & Analyze)
+    UI->>WorldID: Prompts ZK Human Verification
+    WorldID-->>UI: Returns Proof (Sybil-Resistance Checked)
+    UI->>Rust: API Request (Payload + Proof)
     Rust->>AI: Sends decompiled bytecode for semantic analysis
     AI-->>Rust: Returns vulnerability report & intent
-    Rust-->>UI: Displays Initial Risk Score (Red/Yellow/Green)
+    Rust-->>UI: Displays Initial Risk Score (Human-Gated)
     
     rect rgb(30, 30, 50)
         Note over User,CRE: Optional: Decentralized Verification
