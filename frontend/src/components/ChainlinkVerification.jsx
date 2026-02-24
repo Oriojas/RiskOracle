@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { requestChainlinkAudit } from '../api';
+import chainlinkLogo from '../assets/Chainlink_Logo_Blue.svg.png';
 
 export default function ChainlinkVerification({ contractAddress, callData, initialRiskLevel, disabled }) {
     const [auditData, setAuditData] = useState(null);
@@ -228,6 +229,13 @@ export default function ChainlinkVerification({ contractAddress, callData, initi
                                 }
                             </span>
                         </div>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1.5rem', gap: '0.8rem', opacity: 0.8 }}>
+                        <span className="cyber-text" style={{ fontSize: '0.75rem', color: 'var(--brand-electric)' }}>
+                            VERIFIED BY CHAINLINK CRE
+                        </span>
+                        <img src={chainlinkLogo} alt="Chainlink" style={{ height: '24px', filter: 'drop-shadow(0 0 4px var(--brand-electric))' }} />
                     </div>
                 </div>
             )}
