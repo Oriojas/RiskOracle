@@ -97,7 +97,13 @@ function App() {
           <p className="cyber-text" style={{ color: 'var(--neon-cyan)', marginTop: '0.75rem', opacity: 0.8 }}>
             Arbitrum Sepolia Transaction Analyzer
           </p>
-          <Link to="/about" className="know-more-btn" style={{ marginTop: '1.5rem' }}>WANT TO KNOW MORE ABOUT THE PROJECT?</Link>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Link to="/about" className="know-more-btn">WANT TO KNOW MORE ABOUT THE PROJECT?</Link>
+            <a href="/riskoracle-extension.zip" download className="know-more-btn" style={{ backgroundColor: 'rgba(0,255,204,0.1)', borderColor: '#00ffcc', color: '#00ffcc', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              DOWNLOAD GUARDIAN PLUGIN
+            </a>
+          </div>
         </header>
 
         <main className="page-fade-enter-active">

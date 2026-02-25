@@ -61,7 +61,9 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
     return (
         <div className="landing-container">
             <header className="landing-header">
-                <Link to="/" className="back-link" style={{ display: 'inline-block', padding: '0.8rem 1.5rem', background: 'rgba(46,123,255,0.15)', border: '1px solid var(--brand-blue)', borderRadius: '8px', color: '#fff', fontWeight: 'bold', marginBottom: '2rem' }}>← Back to Analyzer</Link>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                    <Link to="/" className="back-link" style={{ padding: '0.8rem 1.5rem', background: 'rgba(46,123,255,0.15)', border: '1px solid var(--brand-blue)', borderRadius: '8px', color: '#fff', fontWeight: 'bold', textDecoration: 'none' }}>← Back to Analyzer</Link>
+                </div>
 
                 <div className="hero-split">
                     <div className="hero-text-content">
@@ -368,11 +370,11 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                 <div className="monetization-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
                     <div className="monetization-card">
                         <div className="monetization-icon">💳</div>
-                        <h3>Freemium Security</h3>
-                        <p>Free basic analysis for every user in the Arbitrum ecosystem. Premium deep-scan reports available for high-value transactions.</p>
+                        <h3>Subscription Guardian Plugin</h3>
+                        <p>While the web-based Analyzer remains a free public utility, the active protection RiskOracle Guardian Extension operates on a paid subscription model requiring user authentication (ID/Password).</p>
                         <ul className="monetization-features">
-                            <li>Instant Basic Risk Assessment</li>
-                            <li>Community Driven Blacklists</li>
+                            <li>Free Web Layer Analysis</li>
+                            <li>Premium Extension Auto-Protect</li>
                         </ul>
                     </div>
                     <div className="monetization-card featured">

@@ -1,0 +1,23 @@
+{
+    "name": "riskoracle-extension",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@worldcoin/idkit": "^2.4.2",
+        "lucide-react": "^0.575.0",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0"
+    },
+    "devDependencies": {
+        "@crxjs/vite-plugin": "^2.0.0-beta.23",
+        "@vitejs/plugin-react": "^4.3.4",
+        "archiver": "^7.0.1",
+        "vite": "^5.4.11"
+    }
+}

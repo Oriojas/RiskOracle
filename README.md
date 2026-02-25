@@ -141,15 +141,35 @@ sequenceDiagram
 
 ---
 
+## 🧩 RiskOracle Guardian (Browser Extension)
+
+To provide true "Pre-Sign Defense," RiskOracle includes a custom-built Chromium browser extension that actively monitors Web3 interactions.
+
+### The "Parallel Mode" Execution
+Traditional security extensions often forcefully block MetaMask or wallet popups, leading to frustrating UX deadlocks or Race Conditions with EIP-6963 discovery. **RiskOracle Guardian** solves this via **Parallel Execution**:
+
+1. **Non-Blocking Interception**: When a dApp triggers `eth_sendTransaction`, the extension intercepts the bytecode, immediately forwards the payload to the native wallet (e.g., MetaMask), and simultaneously launches the Guardian UI.
+2. **Dual-Screen Security**: The user sees their native wallet popup *and* the RiskOracle analysis dashboard side-by-side. 
+3. **Informed Consent**: The user reviews the AI-translated intent, World ID verification, and Chainlink CRE consensus on the Guardian panel before they manually click "Confirm" on their native wallet.
+
+| Feature                 | Description                                                                                                                                                             |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Global Toggle**       | A persistent `chrome.storage` enabled/disabled switch allows users to instantly pause the interception layer at any time without uninstalling the plugin.                  |
+| **Unified Cyber-UI**    | The extension popup shares the exact same glassmorphism/neon aesthetic and underlying React component logic as the main web Analyzer for a cohesive brand experience. |
+| **Monetization Engine** | The extension is designed as the premium, subscription-based counterpart to the free public web scanner.                                                              |
+
+---
+
 ## 🏛️ Architecture
 
 RiskOracle combines the best of Web3, AI, and Systems Programming:
 
 1. **Frontend**: React + Vite + Vanilla CSS (Premium Cyber-Web3 Aesthetic).
-2. **Human Gate**: World ID (`@worldcoin/idkit`) — Zero-Knowledge Proof verification layer.
-3. **Core Decoder**: Rust (Actix-Web) for blisteringly fast API handling and data parsing.
-4. **Semantic Brain**: DeepSeek V3 integrated via API to understand the "why" behind the code.
-5. **Trust Layer**: Chainlink Decentralized Oracle Network (DON) consensus via the Chainlink Runtime Environment (CRE).
+2. **Guardian Extension**: Custom Chromium plugin using `@crxjs/vite-plugin` for parallel provider interception.
+3. **Human Gate**: World ID (`@worldcoin/idkit`) — Zero-Knowledge Proof verification layer.
+4. **Core Decoder**: Rust (Actix-Web) for blisteringly fast API handling and data parsing.
+5. **Semantic Brain**: DeepSeek V3 integrated via API to understand the "why" behind the code.
+6. **Trust Layer**: Chainlink Decentralized Oracle Network (DON) consensus via the Chainlink Runtime Environment (CRE).
 
 ### 🌉 The Rust-to-CRE Bridge (Solving Language Constraints)
 
@@ -211,7 +231,15 @@ npm run dev
 # The cyber-UI goes live at http://localhost:5173
 ```
 
-### 4. Launch the Phishing Demo (Test dApp)
+### 4. Build the Guardian Extension
+```bash
+cd extension
+npm install
+npm run build
+# Load the generated `dist/` folder explicitly into Chrome/Brave via "Load unpacked"
+```
+
+### 5. Launch the Phishing Demo (Test dApp)
 We included a realistic "Malicious Airdrop" dApp to test the Oracle in real time.
 ```bash
 cd test_front_contract

@@ -425,6 +425,8 @@ pub async fn chainlink_audit_handler(
             "--non-interactive",
             "--trigger-index",
             "0",
+            "--target",
+            "staging-settings"
         ])
         .current_dir(&cre_project_path)
         .output()
