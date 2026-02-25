@@ -40,6 +40,7 @@ artifacts/
 rust_backend/ABI/
 tmp.js
 tmp.wasm
+.cre_build_tmp.js
 
 # Logs
 *.log
