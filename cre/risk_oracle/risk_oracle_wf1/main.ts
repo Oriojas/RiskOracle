@@ -68,8 +68,8 @@ const onAuditTrigger = (runtime: Runtime<Config>): Record<string, string> => {
   // runInNodeMode is used so each node makes the HTTP call
   // independently and then consensus is reached on the result.
 
-  // Get Etherscan API Key (Hardcoded for local simulation due to secrets bug)
-  const etherscanApiKey = "TJGVEM1YVYICNKAZC6K31A3Z1FCM4MF7SP";
+  // Get Etherscan API Key securely from CRE secrets manager
+  const etherscanApiKey = runtime.getSecret({ id: "ETHERSCAN_API_KEY" });
 
   const fetchAbi = runtime.runInNodeMode(
     (nodeRuntime: NodeRuntime<Config>) => {
@@ -165,8 +165,8 @@ Respond ONLY with this JSON format (no markdown, no backticks, no additional tex
     max_tokens: 1024,
   });
 
-  // Get DeepSeek API Key (Hardcoded for local simulation due to secrets bug)
-  const deepseekApiKey = "sk-de56a98678e543c5a28bd4ac47dd95b9";
+  // Get DeepSeek API Key securely from CRE secrets manager
+  const deepseekApiKey = runtime.getSecret({ id: "DEEPSEEK_API_KEY" });
 
   runtime.log(`Sending ABI to DeepSeek for risk analysis...`);
 

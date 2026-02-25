@@ -54,5 +54,6 @@ Thumbs.db
 
 # Project Specific
 secrets.yaml
+secrets.json
 guion.md
 implementation_plan.md
