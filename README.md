@@ -276,17 +276,17 @@ We have deployed test contracts specifically for judges and users to experience 
 
 ## 👥 Team
 
-| Member | Role |
-|--------|------|
-| **Oscar** | Backend & AI Integration |
-| **Jhon** | Frontend UX |
-| **Antigravity** | AI Core Assistant |
+| Member | Role | Link |
+|--------|------|------|
+| **Oscar** | Backend & AI Integration | [GitHub](https://github.com/Oriojas) |
+| **Jhon** | Frontend UX | [GitHub](https://github.com/jhontejada95) |
+| **Antigravity** | AI Core Assistant | [Official Site](https://antigravity.google/) |
 
 ---
 
 <div align="center">
 
-*Protecting the frontier. Built by Vibecoders.*
+*Protecting the frontier. Built by Coders and AI.*
 
 *Powered by Chainlink CRE · DeepSeek V3 · Rust · World ID*
 

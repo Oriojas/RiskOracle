@@ -321,19 +321,19 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
             </section>
 
             <section className="landing-section team">
-                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem', fontSize: '1.8rem', color: 'var(--text-muted)' }}>TEAM & <span style={{ color: 'var(--brand-blue)' }}>VIBECODERS</span></h1>
+                <h1 className="cyber-title" style={{ textAlign: 'center', marginTop: '4rem', fontSize: '1.8rem', color: 'var(--text-muted)' }}>TEAM CODERS & <span style={{ color: 'var(--brand-blue)' }}>IA</span></h1>
                 <div className="team-grid">
                     <div className="team-card">
                         <div className="member-photo oscar" style={{ backgroundImage: `url(${oscarPhoto})` }}></div>
                         <h3>Oscar</h3>
                         <p className="role" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 600 }}>Backend & IA</p>
-                        <span className="vibe-tag">VIBECODER</span>
+                        <span className="vibe-tag">CODER</span>
                     </div>
                     <div className="team-card">
                         <div className="member-photo jhon" style={{ backgroundImage: `url(${jhonPhoto})` }}></div>
                         <h3>Jhon</h3>
                         <p className="role" style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 600 }}>Front UX</p>
-                        <span className="vibe-tag">VIBECODER</span>
+                        <span className="vibe-tag">CODER</span>
                     </div>
                     <div className="team-card antigravity">
                         <div className="member-photo ai-logo">
