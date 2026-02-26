@@ -1,0 +1,43 @@
+{
+    "manifest_version": 3,
+    "name": "RiskOracle Web3 Guardian",
+    "version": "1.0.0",
+    "description": "Intercepts Web3 transactions, requires WorldID verification, and performs deep risk analysis.",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "RiskOracle Guardian"
+    },
+    "background": {
+        "service_worker": "src/background/index.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/content/inpage-init.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
+        },
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/content/content.js"
+            ],
+            "run_at": "document_start"
+        }
+    ]
+}
