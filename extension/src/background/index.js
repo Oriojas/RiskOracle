@@ -31,21 +31,37 @@ function handleOpenPopup(message) {
     const popupHeight = 700;
 
     console.log(`🪟 [RiskOracle] Creating new window popup for Tx ${transactionId}...`);
-    chrome.windows.create({
-        url: chrome.runtime.getURL(`index.html?type=risk_modal&payload=${payloadStr}&txId=${transactionId}`),
-        type: 'popup',
-        width: popupWidth,
-        height: popupHeight,
-        focused: true
-    }, (windowInstance) => {
-        if (chrome.runtime.lastError) {
-            console.error('❌ [RiskOracle] Failed opening popup window:', chrome.runtime.lastError.message);
-            return;
+
+    // Obtenemos la última ventana para posicionar nuestro popup a la izquierda
+    // y evitar que se pise con MetaMask (que suele abrirse arriba a la derecha)
+    chrome.windows.getLastFocused({ populate: false }, (lastWindow) => {
+        let leftPos = 50;
+        let topPos = 50;
+
+        if (lastWindow && lastWindow.width) {
+            // Lo forzamos hacia la izquierda de la pantalla principal o ventana activa
+            leftPos = Math.max(lastWindow.left + 50, 50);
+            topPos = Math.max(lastWindow.top + 50, 50);
         }
 
-        // Registrar la ventana creada
-        activePopups[transactionId] = windowInstance.id;
-        console.log(`✅ [RiskOracle] Window opened with ID: ${windowInstance.id}`);
+        chrome.windows.create({
+            url: chrome.runtime.getURL(`index.html?type=risk_modal&payload=${payloadStr}&txId=${transactionId}`),
+            type: 'popup',
+            width: popupWidth,
+            height: popupHeight,
+            left: leftPos,
+            top: topPos,
+            focused: true
+        }, (windowInstance) => {
+            if (chrome.runtime.lastError) {
+                console.error('❌ [RiskOracle] Failed opening popup window:', chrome.runtime.lastError.message);
+                return;
+            }
+
+            // Registrar la ventana creada
+            activePopups[transactionId] = windowInstance.id;
+            console.log(`✅ [RiskOracle] Window opened with ID: ${windowInstance.id}`);
+        });
     });
 }
 

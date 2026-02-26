@@ -8,13 +8,21 @@ function App() {
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search)
-        if (searchParams.get('type') === 'risk_modal') {
-            const payloadStr = searchParams.get('payload')
-            if (payloadStr) {
+        const type = searchParams.get('type')
+        const payloadParam = searchParams.get('payload')
+
+        console.log('[RiskOracle App] type:', type)
+        console.log('[RiskOracle App] raw payload param:', payloadParam)
+
+        if (type === 'risk_modal') {
+            if (payloadParam) {
                 try {
-                    setPayload(JSON.parse(decodeURIComponent(payloadStr)))
+                    const parsed = JSON.parse(decodeURIComponent(payloadParam))
+                    console.log('[RiskOracle App] payload parsed:', parsed)
+                    setPayload(parsed)
                 } catch (e) {
-                    console.error("Failed to parse payload", e)
+                    console.error('[RiskOracle App] Failed to parse payload:', e)
+                    setPayload(null)
                 }
             }
             setView('risk_modal')
@@ -23,8 +31,17 @@ function App() {
         }
     }, [])
 
-    if (view === 'loading') return <div className="p-4">Loading...</div>
-    if (view === 'risk_modal') return <RiskModal payload={payload} />
+    if (view === 'loading') {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-slate-950 text-slate-400 text-sm">
+                Cargando...
+            </div>
+        )
+    }
+
+    if (view === 'risk_modal') {
+        return <RiskModal payload={payload} />
+    }
 
     return <Settings />
 }

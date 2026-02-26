@@ -29,14 +29,14 @@ export default function Settings() {
                 <ShieldAlert className={`w-8 h-8 ${enabled ? 'text-cyan-400' : 'text-slate-600'}`} />
                 <div>
                     <h1 className="text-lg font-bold tracking-tight text-white leading-tight">RiskOracle</h1>
-                    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Guardian Web3</h2>
+                    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Web3 Guardian</h2>
                 </div>
             </div>
 
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-lg flex items-center justify-between shadow-inner">
                 <div>
-                    <span className="block text-sm font-medium text-slate-200">Intercepción Activa</span>
-                    <span className="block text-xs text-slate-500 mt-1">Protección en proxy paralelo.</span>
+                    <span className="block text-sm font-medium text-slate-200">Active Interception</span>
+                    <span className="block text-xs text-slate-500 mt-1">Parallel proxy protection.</span>
                 </div>
                 <button
                     onClick={toggleStatus}
@@ -48,7 +48,7 @@ export default function Settings() {
 
             <div className="mt-6 pt-4 border-t border-slate-800/80">
                 <button className="flex items-center gap-2 text-xs text-slate-400 hover:text-slate-200 transition-colors">
-                    <SettingsIcon className="w-4 h-4" /> Configuración Avanzada
+                    <SettingsIcon className="w-4 h-4" /> Advanced Configuration
                 </button>
             </div>
         </div>

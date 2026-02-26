@@ -3,6 +3,12 @@
     "name": "RiskOracle Web3 Guardian",
     "version": "1.0.0",
     "description": "Intercepts Web3 transactions, requires WorldID verification, and performs deep risk analysis.",
+    "icons": {
+        "16": "icon.png",
+        "32": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
     "permissions": [
         "activeTab",
         "scripting",
