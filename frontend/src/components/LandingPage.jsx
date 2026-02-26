@@ -375,13 +375,16 @@ const LandingPage = ({ oscarPhoto, jhonPhoto }) => {
                             <li>Community Driven Blacklists</li>
                         </ul>
                     </div>
-                    <div className="monetization-card featured">
-                        <div className="monetization-icon">🔌</div>
-                        <h3>B2B API Licensing</h3>
-                        <p>Direct integration into Wallets, Exchanges, and dApps (Metamask, Rabby, Uniswap). Charging a sub-cent fee per analysis call.</p>
+                    <div className="monetization-card featured" style={{ border: '1px solid var(--neon-cyan)', boxShadow: '0 0 20px rgba(34,211,238,0.15)' }}>
+                        <div className="monetization-icon">🔗</div>
+                        <h3 style={{ color: 'var(--neon-cyan)' }}>RiskOracle Browser Extension</h3>
+                        <p>Install our open-source extension to protect your MetaMask transactions in real-time. Powered by World ID & Chainlink CRE.</p>
                         <ul className="monetization-features">
-                            <li>High Volume API Access</li>
-                            <li>Real-time Fraud Alerts</li>
+                            <li>
+                                <a href="https://github.com/Oriojas/RiskOracle#4-install-the-riskoracle-browser-extension-guardian" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--neon-cyan)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}>
+                                    <span>Download from GitHub 🚀</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div className="monetization-card">

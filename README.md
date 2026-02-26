@@ -16,11 +16,27 @@
 
 ---
 
+## 👁️ Table of Contents
+
+- [👁️ The Oracle's Vision](#️-the-oracles-vision)
+- [🏆 Hackathon Tracks](#-hackathon-tracks)
+- [🆔 World ID Integration (Sybil-Resistant Human Gate)](#-world-id-integration-sybil-resistant-human-gate)
+- [🔑 Unmatched Benefits](#-unmatched-benefits)
+- [🌊 Application Flow](#-application-flow)
+- [🏛️ Architecture](#️-architecture)
+- [🚦 Risk Scoring System](#-risk-scoring-system)
+- [🛠️ Quick Start & Installation](#️-quick-start--installation)
+  - [🚀 Install the RiskOracle Browser Extension (Guardian)](#4-install-the-riskoracle-browser-extension-guardian)
+- [🧪 Live Testing (Arbitrum Sepolia)](#-live-testing-arbitrum-sepolia)
+- [👥 Team](#-team)
+
+---
+
 ## 👁️ The Oracle's Vision
 
 In the rapidly evolving world of decentralized finance, uncertainty is the enemy. Over **$3.1B** was lost to hacks and scams in H1 2025 alone — a staggering **+1,025%** increase from the previous year — with **84%** starting as simple `approve()` or malicious contract interactions. Users are forced to sign complex hex data blindfolded.
 
-**RiskOracle** is the answer: a **human-gated**, AI-powered security layer that stands between the user and catastrophe. By combining:
+**RiskOracle** is the answer: a **human-gated**, AI-powered security layer (delivered as an intuitive **Browser Extension**) that stands directly between your wallet and catastrophe. By combining:
 
 - ⚡ **Sub-millisecond Rust decoding** for raw calldata extraction,
 - 🧠 **DeepSeek V3 AI** for semantic intent analysis,
@@ -38,13 +54,13 @@ In the rapidly evolving world of decentralized finance, uncertainty is the enemy
 We built RiskOracle pushing beyond the standard stack to deliver a production-grade Web3 firewall. We are competing for:
 
 ### 1. ⚖️ Risk & Compliance
-RiskOracle directly addresses the **$3.1B+ loss** crisis in DeFi by functioning as an intelligent, pre-execution defense layer. Instead of auditing after the hack, we offer real-time compliance and risk analysis of the semantic intent *before* any signature is executed. Our Rust-powered decoder extracts calldata in sub-millisecond time, while DeepSeek V3 classifies malicious patterns — making it a critical security primitive for Web3 mass adoption.
+RiskOracle directly addresses the **$3.1B+ loss** crisis in DeFi by functioning as an intelligent, pre-execution browser security layer. Instead of auditing after the hack or expecting users to copy-paste hex data into external tools, our **Guardian Extension** intercepts `eth_sendTransaction` calls directly from the browser's provider object (e.g. MetaMask). It offers real-time compliance and risk analysis of the semantic intent *before* any signature is executed. Our Rust-powered decoder extracts calldata in sub-millisecond time, while DeepSeek V3 classifies malicious patterns — making it a frictionless security primitive for Web3 mass adoption.
 
 ### 2. 🧠 CRE & AI
 We took **Chainlink's CRE** (natively TS/Go) and pushed its limits by seamlessly orchestrating it within a blisteringly fast **Rust backend** via a custom cross-language bridge. This pipeline powers a decentralized verification flow where **DeepSeek V3** analyzes raw bytecode semantics, and multiple oracle nodes within the CRE Runtime Environment independently evaluate the data to reach a **BFT consensus** on the transaction's risk level.
 
 ### 3. 🏅 Top 10 Projects
-RiskOracle is a polished, end-to-end solution with a highly aesthetic cyberpunk UI that transforms terrifying hex data into human-readable alerts, a robust Rust microservice backend, **World ID** integration for Sybil-resistant human-gated access, and a functional **Phishing Demo dApp** (`test_front_contract`) that allows judges to experience a real attack-and-defense flow live in the browser.
+RiskOracle is a polished, production-ready, end-to-end solution. Instead of a standalone dashboard, we built a non-blocking **Browser Extension (Web3 Guardian)** that wraps the standard Ethereum provider. It intercepts wallet transactions on the fly, enforces a **World ID** human gate, and triggers the Rust+DeepSeek+CRE pipeline natively in parallel with the MetaMask popup. It also features a highly aesthetic cyberpunk UI, a Landing Page (`frontend`), and a functional **Phishing Demo dApp** (`test_front_contract`) that allows judges to experience a real attack-and-defense flow live in the browser.
 
 ### 4. 🆔 Best Use of World ID with CRE
 RiskOracle integrates **World ID** — World's protocol for privacy-preserving proof of unique humanness — directly with **Chainlink CRE** to create a human-gated, decentralized security pipeline. Users must pass a Zero-Knowledge Proof verification before any analysis is triggered, providing Sybil resistance at the application layer. The ZK proof then unlocks the CRE-powered verification pipeline, where the proof context is injected into the DON simulation for consensus — demonstrating World ID usage beyond its natively supported chains via off-chain verification within CRE.
@@ -106,36 +122,45 @@ Every analysis request is gated by a **World ID Zero-Knowledge Proof**. This ens
 ```mermaid
 sequenceDiagram
     participant User as 🧑‍💻 User
-    participant UI as 🖥️ RiskOracle UI
+    participant Ext as 🧩 Extension / UI
+    participant Meta as 🦊 MetaMask
     participant WorldID as 🆔 World ID (ZKP)
     participant Rust as 🦀 Rust Backend
     participant AI as 🧠 DeepSeek V3
     participant CRE as 🔗 Chainlink CRE
 
-    User->>UI: Enters Contract Address & Calldata
-    User->>UI: Clicks "VERIFY & ANALYZE RISK"
-
-    rect rgb(40, 20, 60)
-        Note over UI,WorldID: 🔒 Human Gate (World ID)
-        UI->>WorldID: Opens World ID Widget (QR / Device)
-        WorldID-->>UI: Returns ZK Proof (nullifier_hash + merkle_root + proof)
-        Note over UI: ✅ Human verified. Pipeline unlocked.
+    alt Option A: Browser Extension (Intercepts tx)
+        User->>Ext: Initiates Tx on any dApp
+        Ext->>Meta: Forwards Tx to Wallet (Parallel Execution)
+        Ext->>Ext: Triggers RiskOracle Popup
+    else Option B: Web UI (Manual Entry)
+        User->>Ext: Enters Contract Address & Calldata
+        User->>Ext: Clicks "VERIFY & ANALYZE"
     end
 
-    UI->>Rust: API Request (Payload)
-    Rust->>Rust: Decodes calldata (sub-ms)
-    Rust->>AI: Sends decompiled bytecode for semantic analysis
-    AI-->>Rust: Returns vulnerability report & intent classification
-    Rust-->>UI: Displays Risk Score + Verified Human Badge (Human-XXXX)
+    rect rgb(40, 20, 60)
+        Note over Ext,WorldID: 🔒 Human Gate (World ID)
+        Ext->>WorldID: Asserts human verification constraint
+        WorldID-->>Ext: Returns ZK Proof (nullifier_hash + merkle_root + proof)
+    end
+
+    Ext->>Rust: API Request (Intercepted/Manual Payload)
+    Rust->>AI: Decodes calldata & sends decompiled bytecode
+    AI-->>Rust: Semantic intent classification
+    Rust-->>Ext: Displays Risk Level in UI
 
     rect rgb(30, 30, 50)
         Note over User,CRE: 🔗 Decentralized Verification (World ID + CRE)
-        User->>UI: Requests "Verify with Chainlink DON"
-        UI->>Rust: Triggers CRE Verification Sequence
-        Rust->>CRE: Injects params + World ID proof context
+        User->>Ext: Requests "Verify with Chainlink DON"
+        Ext->>Rust: Triggers CRE Verification Sequence
+        Rust->>CRE: Injects params + World ID context into DON
         CRE->>CRE: Independent node analysis (BFT consensus)
         CRE-->>Rust: Consensus Reached → Returns Signed Hash
-        Rust-->>UI: Displays Cryptographic Trust Report
+        Rust-->>Ext: Displays Cryptographic Trust Report
+    end
+
+    opt If using Browser Extension
+        User->>Meta: Reviews Meta-Report & Signs/Rejects Tx directly in Wallet
     end
 ```
 
@@ -145,7 +170,7 @@ sequenceDiagram
 
 RiskOracle combines the best of Web3, AI, and Systems Programming:
 
-1. **Frontend**: React + Vite + Vanilla CSS (Premium Cyber-Web3 Aesthetic).
+1. **Frontend Extension (Guardian)**: React + Vite injected via Content Scripts. Intercepts `window.ethereum` dynamically.
 2. **Human Gate**: World ID (`@worldcoin/idkit`) — Zero-Knowledge Proof verification layer.
 3. **Core Decoder**: Rust (Actix-Web) for blisteringly fast API handling and data parsing.
 4. **Semantic Brain**: DeepSeek V3 integrated via API to understand the "why" behind the code.
@@ -211,7 +236,22 @@ npm run dev
 # The cyber-UI goes live at http://localhost:5173
 ```
 
-### 4. Launch the Phishing Demo (Test dApp)
+### 4. Install the RiskOracle Browser Extension (Guardian)
+The true power of RiskOracle is fighting malicious transactions right at the source without interrupting your standard wallet flow.
+1. In the terminal, build the extension:
+```bash
+cd extension
+npm install
+npm run build
+```
+2. Open Google Chrome (or any Chromium browser).
+3. Navigate to `chrome://extensions/`.
+4. Enable **"Developer mode"** in the top right corner.
+5. Click **"Load unpacked"**.
+6. Select the `extension/dist` folder inside your cloned `RiskOracle` repository.
+7. *The extension is now active! It will automatically intercept any transactions initiated in the test dApp (Step 5).*
+
+### 5. Launch the Phishing Demo (Test dApp)
 We included a realistic "Malicious Airdrop" dApp to test the Oracle in real time.
 ```bash
 cd test_front_contract
