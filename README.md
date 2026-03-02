@@ -16,6 +16,16 @@
 
 ---
 
+## 🎥 Video Demo
+
+<div align="center">
+  <a href="https://youtu.be/J3FweK-15EE">
+    <img src="https://img.youtube.com/vi/J3FweK-15EE/maxresdefault.jpg" alt="RiskOracle Video Demo" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+  </a>
+</div>
+
+---
+
 ## 👁️ Table of Contents
 
 - [👁️ The Oracle's Vision](#️-the-oracles-vision)
